@@ -1,0 +1,62 @@
+\section{Lösungsansatz}
+\subsection{Szene}
+Da die Aufgabenstellung weitestgehende Gestaltungsfreiheit bezüglich der konkret zu 
+realisierenden Szene lässt, fällt die Wahl auf eine Szene, welche folgende Objekte 
+enthält:
+
+\begin{itemize}
+\item Ein flacher, mit einer Grastextur belegter Boden (Rechteck)
+\item Eine Skybox, mit einer Wolken-/Sternetextur belegt (simuliert den Himmel)
+\item Ein Quader und ein 3-Prisma, welche ein stilisiertes Haus darstellen sollen.
+Der Quader Gelb gefärbt, das Prisma mit einer Dachziegeltextur belegt.
+\item Mehrere stilisierte Straßenlaternen, bestehend aus einen Zylinder und einem 
+Quader, grau gefärbt.
+\item Eine aus drei Quadern bestehende stilisierte Straße, Farben Dunkel- und Hellgrau.
+\item Eine Menge von Zylindern und Quadern, welche ein stilisiertes Auto ergeben.
+Bunt gefärbt.
+\end{itemize}
+
+Die Objekte sind in sinnvoller Art und Weise anzuordnen.
+
+\subsection{Lichtquellen}
+Im Tagmodus soll durch globale Beleuchtung die ganze Szene gut sichtbar sein. Im 
+Nachtmodus wird die globale Beleuchtung auf ein Minimum reduziert und stattdessen helle 
+Spotlights in den Straßenlaternen aktiviert, welche auf dem vorbeifahrenden Auto 
+Lichteffekte produzieren. Außerdem sollen vorne und hinten am Auto durch punktförmige
+Lichtquellen die Vorder- und Rücklichter simuliert werden.
+
+\subsection{Animation}
+Das Auto fährt in einer sinusförmig an- und abschwellenden Bewegung auf der geraden 
+Straße vor- und wieder rückwärts an den Straßenlaternen vorbei.
+
+\subsection{Viewports und Kameras}
+Die Szene soll gleichzeitig durch zwei Kameras in jeweils zwei Projektionen 
+(Orthogonale Projektion und Perspektivische Projektion) beobachtbar sein.
+
+Dabei sollen die beiden linken Drittel des Fensters durch den Haupt-Viewport ausgefüllt 
+werden und auf dem rechten Drittel sollen die drei weiteren Viewports vertikal 
+übereinander angezeigt werden. Ein Wechsel zwischen den Kameras ist jederzeit möglich 
+(siehe Unten).
+
+\subsection{Interaktion}
+Die verfügbaren Interaktionen sollen dem Nutzer durch Bildschirm-Overlay angezeigt 
+werden. Das Programm wird somit selbsterklärend.
+
+Folgende Eingriffe durch den Benutzer werden ermöglicht:
+
+\begin{itemize}
+\item Ein-/Ausblenden des Overlays (Taste O)
+\item Umschalten der derzeit aktiven Kamera (Tasten 1-4)
+Dabei wird die jeweils aktive Kamera in den Haupt-Viewport geholt und die anderen 
+Kameras werden in die Neben-Viewports verschoben.
+\item Bewegung der derzeit aktiven Kamera in der Ebene (Pfeiltasten oder W,A,S,D)
+\item Bewegungsgeschwindigkeit erhöhen (Shift gedrückt halten)
+\item Drehung und Neigung der Kamera (Bewegung der Maus)
+\item Erhöhen-/Senken der Animationsgeschwindigkeit (Tasten +/-)
+\item Umschalten zwischen Tag- und Nachtmodus (Taste N)
+\item Umschalten zwischen gefülltem, texturierten, und Wireframe-Modus (Taste M)
+\item Ein-/Ausblenden eines Koordinatensystems (Taste K)
+\item Nur in Perspektivischer Projektion: Erhöhen-/Senken des Blickwinkels (Tasten Bild 
+Auf / Ab)
+\end{itemize}
+
