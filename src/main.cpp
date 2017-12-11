@@ -17,6 +17,7 @@ mat4 projectionMatrix, viewMatrix;
 unique_ptr<ShaderProgram> shaderProgram;
 
 /* GLUT callbacks */
+void keyboard(unsigned char key, int x, int y);
 void render();
 void reshape(int width, int height);
 
@@ -61,6 +62,7 @@ int main(int argc, char ** args) {
 
     // Set callbacks and run
     glutDisplayFunc(render);
+    glutKeyboardFunc(keyboard);
     glutReshapeFunc(reshape);
 
     glutMainLoop();
@@ -80,6 +82,12 @@ unique_ptr<ShaderProgram> loadShaders() {
     unique_ptr<ShaderProgram> result = spFactory.link();
 
     return result;
+}
+
+/* GLUT callbacks */
+void keyboard(unsigned char key, int x, int y) {
+    if (key == 'q')
+        exit(0);
 }
 
 void reshape(int width, int height) {
