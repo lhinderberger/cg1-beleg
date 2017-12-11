@@ -19,6 +19,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Collect files
 file (GLOB_RECURSE SOURCE_FILES "src/*.h" "src/*.cpp")
 
-# Define common library target
+# Define executable target
 add_executable(cg1-beleg ${SOURCE_FILES})
 target_link_libraries(cg1-beleg ${GLUT_LIBRARIES} ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES})
