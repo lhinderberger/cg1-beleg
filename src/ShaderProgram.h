@@ -23,8 +23,8 @@ namespace cg1 {
     public:
         ~ShaderProgram();
 
-        GLuint getId() const;
         void use();
+        inline GLuint getId() const { return id; }
     };
 
     /**

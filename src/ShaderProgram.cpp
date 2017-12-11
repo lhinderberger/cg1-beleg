@@ -20,10 +20,6 @@ ShaderProgram::~ShaderProgram() {
         glDeleteProgram(id);
 }
 
-GLuint ShaderProgram::getId() const {
-    return id;
-}
-
 void ShaderProgram::use() {
     glUseProgram(id);
 }
