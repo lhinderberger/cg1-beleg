@@ -11,11 +11,6 @@ find_package(GLEW REQUIRED)
 # Setup include directories
 include_directories(${GLUT_INCLUDES} ${OPENGL_INCLUDES} ${GLEW_INCLUDES})
 
-# Set up output file paths
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 # Collect files
 file (GLOB_RECURSE SOURCE_FILES "src/*.h" "src/*.cpp")
 
