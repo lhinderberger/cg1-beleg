@@ -20,7 +20,7 @@ int lastMouseX = -1, lastMouseY = -1;
 mat4 projectionMatrix;
 
 InteractiveFirstPersonCamera camera;
-list<unique_ptr<Renderable>> renderables;
+list<unique_ptr<Model>> models;
 unique_ptr<ShaderProgram> shaderProgram;
 
 /* GLUT callbacks */
@@ -31,7 +31,7 @@ void reshape(int width, int height);
 void specialKey(int key, int x, int y);
 
 /* Other methods */
-void generateRenderables();
+void generateModels();
 void init(int argc, char ** args);
 unique_ptr<ShaderProgram> loadShaders();
 
@@ -39,14 +39,14 @@ unique_ptr<ShaderProgram> loadShaders();
 
 int main(int argc, char ** args) {
     init(argc, args);
-    generateRenderables();    
+    generateModels();    
     glutMainLoop();
     return 0;
 }
 
-void generateRenderables() {
-    renderables.clear();
-    renderables.emplace_back(new Axises());
+void generateModels() {
+    models.clear();
+    models.emplace_back(new Axises());
 }
 
 void init(int argc, char ** args) {
@@ -160,11 +160,12 @@ void render() {
 
     // Calculate view and projection matrices
     glm::mat4 viewMatrix = camera.getViewMatrix();
-    glm::mat4 pv = projectionMatrix * viewMatrix;
-    glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &pv[0][0]);
     
-    for (const unique_ptr<Renderable> & renderable : renderables)
-        renderable->render();
+    for (const unique_ptr<Model> & model : models) {
+        glm::mat4 mvp = projectionMatrix * viewMatrix * model->getModelMatrix();
+        glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvp[0][0]);
+        model->render();
+    }
 
     glFlush();
 }

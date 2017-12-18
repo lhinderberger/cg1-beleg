@@ -1,11 +1,11 @@
 #ifndef CG1_AXISES
 #define CG1_AXISES
 
-#include "Renderable.h"
+#include "Model.h"
 #include "VAO.h"
 
 namespace cg1 {
-    class Axises : public Renderable {
+    class Axises : public Model {
     private:
         std::unique_ptr<VAO> vao;
     
