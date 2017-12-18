@@ -37,4 +37,5 @@ void FirstPersonCamera::setYaw(float yaw) {
 void FirstPersonCamera::updateViewMatrix() {
     viewMatrix = rotate(pitch, vec3(1.0,0.0,0.0)) * rotate(yaw, vec3(0.0,1.0,0.0))
         * translate(-1.0f * position);
+    modified = false;
 }
