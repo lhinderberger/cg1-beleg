@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Axises.h"
+#include "InteractiveFirstPersonCamera.h"
 #include "ShaderProgram.h"
 
 using namespace cg1;
@@ -15,14 +16,19 @@ using namespace std;
 
 GLuint mvpLocation;
 int winWidth = 800, winHeight = 600;
-mat4 projectionMatrix, viewMatrix;
+int lastMouseX = -1, lastMouseY = -1;
+mat4 projectionMatrix;
+
+InteractiveFirstPersonCamera camera;
 list<unique_ptr<Renderable>> renderables;
 unique_ptr<ShaderProgram> shaderProgram;
 
 /* GLUT callbacks */
 void keyboard(unsigned char key, int x, int y);
+void passiveMouseMotion(int x, int y);
 void render();
 void reshape(int width, int height);
+void specialKey(int key, int x, int y);
 
 /* Other methods */
 void generateRenderables();
@@ -81,7 +87,9 @@ void init(int argc, char ** args) {
     // Set callbacks and run
     glutDisplayFunc(render);
     glutKeyboardFunc(keyboard);
+    glutPassiveMotionFunc(passiveMouseMotion);
     glutReshapeFunc(reshape);
+    glutSpecialFunc(specialKey);
 }
 
 unique_ptr<ShaderProgram> loadShaders() {
@@ -101,8 +109,39 @@ unique_ptr<ShaderProgram> loadShaders() {
 
 /* GLUT callbacks */
 void keyboard(unsigned char key, int x, int y) {
+    camera.processKey(key);
     if (key == 'q')
         exit(0);
+    render();
+}
+
+void passiveMouseMotion(int x, int y) {
+    /* Calculate relative movement */
+    int relativeX = x - lastMouseX;
+    int relativeY = y - lastMouseY;
+    float winRelativeX = (float)relativeX / (float)winWidth;
+    float winRelativeY = (float)relativeY / (float)winHeight;
+    
+    /* Ignore first movement, ignore large movements (we assume they're warps) */
+    if (lastMouseX != -1 && abs(relativeX) <= 100 && abs(relativeY) <= 100) {
+        /* Adjust camera direction */
+        camera.processRelativeMouseMotion(winRelativeX, winRelativeY);
+
+        /* Warp mouse to the opposite edge of window, if at edge */
+        int newX = x;
+        int newY = y;
+        if (x < 10) newX = winWidth - 20;
+        if (x > (winWidth - 10)) newX = 20;
+        if (y < 10) newY = winHeight - 20;
+        if (y > (winHeight - 10)) newY = 20;
+
+        if (newX != x || newY != y)
+            glutWarpPointer(newX, newY);
+    }
+
+    lastMouseX = x;
+    lastMouseY = y;
+    render();
 }
 
 void reshape(int width, int height) {
@@ -112,15 +151,15 @@ void reshape(int width, int height) {
 
     /* Recalculate aspect ratio and projection matrix */
     double aspectRatio = (double)width/height;
-    projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
-    //projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
+    //projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
+    projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
 }
 
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Calculate view and projection matrices
-    glm::mat4 viewMatrix = lookAt(vec3(2,2,2), vec3(0,0,0), vec3(0,1,0));
+    glm::mat4 viewMatrix = camera.getViewMatrix();
     glm::mat4 pv = projectionMatrix * viewMatrix;
     glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &pv[0][0]);
     
@@ -128,4 +167,9 @@ void render() {
         renderable->render();
 
     glFlush();
+}
+
+void specialKey(int key, int x, int y) {
+    camera.processSpecialKey(key);
+    render();
 }
