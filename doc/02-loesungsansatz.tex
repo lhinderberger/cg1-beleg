@@ -5,29 +5,23 @@ realisierenden Szene lässt, fällt die Wahl auf eine Szene, welche folgende Obj
 enthält:
 
 \begin{itemize}
-\item Ein flacher, mit einer Grastextur belegter Boden (Rechteck)
 \item Eine Skybox, mit einer Wolken-/Sternetextur belegt (simuliert den Himmel)
-\item Ein Quader und ein 3-Prisma, welche ein stilisiertes Haus darstellen sollen.
-Der Quader Gelb gefärbt, das Prisma mit einer Dachziegeltextur belegt.
-\item Mehrere stilisierte Straßenlaternen, bestehend aus einen Zylinder und einem 
-Quader, grau gefärbt.
-\item Eine aus drei Quadern bestehende stilisierte Straße, Farben Dunkel- und Hellgrau.
-\item Eine Menge von Zylindern und Quadern, welche ein stilisiertes Auto ergeben.
-Bunt gefärbt.
+\item Ein Quader, welcher ein Hochhaus darstellen soll und mit einer entsprechenden
+Textur belegt ist.
+\item Ein weiterer Quader mit zahlreichen, darauf befestigten Kugeln, welcher
+eine Glühbirnen-Leuchtreklame mit dem Text "OPEN GL" darstellen soll.
+Die Leuchtreklame ist an der Fassade des Hochhauses angebracht.
 \end{itemize}
-
-Die Objekte sind in sinnvoller Art und Weise anzuordnen.
 
 \subsection{Lichtquellen}
 Im Tagmodus soll durch globale Beleuchtung die ganze Szene gut sichtbar sein. Im 
-Nachtmodus wird die globale Beleuchtung auf ein Minimum reduziert und stattdessen helle 
-Spotlights in den Straßenlaternen aktiviert, welche auf dem vorbeifahrenden Auto 
-Lichteffekte produzieren. Außerdem sollen vorne und hinten am Auto durch punktförmige
-Lichtquellen die Vorder- und Rücklichter simuliert werden.
+Nachtmodus wird die globale Beleuchtung auf ein Minimum reduziert.
+
+Die Glühbirnen der Leuchtreklame leuchten farbig.
 
 \subsection{Animation}
-Das Auto fährt in einer sinusförmig an- und abschwellenden Bewegung auf der geraden 
-Straße vor- und wieder rückwärts an den Straßenlaternen vorbei.
+Die Wörter "OPEN" und "GL" leuchten in verschiedenen, interaktiv wählbaren
+Blinkmustern auf.
 
 \subsection{Viewports und Kameras}
 Die Szene soll gleichzeitig durch zwei Kameras in jeweils zwei Projektionen 
@@ -46,16 +40,15 @@ Folgende Eingriffe durch den Benutzer werden ermöglicht:
 
 \begin{itemize}
 \item Ein-/Ausblenden des Overlays (Taste O)
-\item Umschalten der derzeit aktiven Kamera (Tasten 1-4)
-Dabei wird die jeweils aktive Kamera in den Haupt-Viewport geholt und die anderen 
-Kameras werden in die Neben-Viewports verschoben.
+\item Umschalten der im Haupt-Viewport aktiven Kamera (Tasten K)
+\item Umschalten der im Haupt-Viewport aktiven Projektion (Taste P)
 \item Bewegung der derzeit aktiven Kamera in der Ebene (Pfeiltasten oder W,A,S,D)
 \item Bewegungsgeschwindigkeit erhöhen (Shift gedrückt halten)
-\item Drehung und Neigung der Kamera (Bewegung der Maus)
+\item Drehung und Neigung (Pitch/Yaw) der Kamera (Bewegung der Maus)
+\item Umschalten des Blinkmusters (Taste B)
 \item Erhöhen-/Senken der Animationsgeschwindigkeit (Tasten +/-)
 \item Umschalten zwischen Tag- und Nachtmodus (Taste N)
 \item Umschalten zwischen gefülltem, texturierten, und Wireframe-Modus (Taste M)
-\item Ein-/Ausblenden eines Koordinatensystems (Taste K)
 \item Nur in Perspektivischer Projektion: Erhöhen-/Senken des Blickwinkels (Tasten Bild 
 Auf / Ab)
 \item Verlassen der Anwendung (Taste Q)
