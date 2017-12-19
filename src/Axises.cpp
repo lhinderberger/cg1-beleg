@@ -17,8 +17,6 @@ Axises::Axises(float length) {
 void Axises::render() {
     vao->bind();
     
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    
     glVertexAttrib4f(1, 1.0f, 0.0f, 0.0f, 0.5f);
     glDrawArrays(GL_LINES, 0, 2);
     
@@ -27,6 +25,4 @@ void Axises::render() {
     
     glVertexAttrib4f(1, 0.0f, 0.0f, 1.0f, 0.5f);
     glDrawArrays(GL_LINES, 4, 2);
-    
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
