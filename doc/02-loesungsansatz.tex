@@ -1,20 +1,20 @@
 \section{Lösungsansatz}
 \subsection{Szene}
-Da die Aufgabenstellung weitestgehende Gestaltungsfreiheit bezüglich der konkret zu 
-realisierenden Szene lässt, fällt die Wahl auf eine Szene, welche folgende Objekte 
+Da die Aufgabenstellung weitestgehende Gestaltungsfreiheit bezüglich der konkret zu
+realisierenden Szene lässt, fällt die Wahl auf eine Szene, welche folgende Objekte
 enthält:
 
 \begin{itemize}
 \item Eine Skybox, mit einer Wolken-/Sternetextur belegt (simuliert den Himmel)
 \item Ein Quader, welcher ein Hochhaus darstellen soll und mit einer entsprechenden
 Textur belegt ist.
-\item Ein weiterer Quader mit zahlreichen, darauf befestigten Kugeln, welcher
+\item Ein weiterer Quader mit zahlreichen, darauf befestigten Halbkugeln, welcher
 eine Glühbirnen-Leuchtreklame mit dem Text "OPEN GL" darstellen soll.
 Die Leuchtreklame ist an der Fassade des Hochhauses angebracht.
 \end{itemize}
 
 \subsection{Lichtquellen}
-Im Tagmodus soll durch globale Beleuchtung die ganze Szene gut sichtbar sein. Im 
+Im Tagmodus soll durch globale Beleuchtung die ganze Szene gut sichtbar sein. Im
 Nachtmodus wird die globale Beleuchtung auf ein Minimum reduziert.
 
 Die Glühbirnen der Leuchtreklame leuchten farbig.
@@ -24,16 +24,16 @@ Die Wörter "OPEN" und "GL" leuchten in verschiedenen, interaktiv wählbaren
 Blinkmustern auf.
 
 \subsection{Viewports und Kameras}
-Die Szene soll gleichzeitig durch zwei Kameras in jeweils zwei Projektionen 
+Die Szene soll gleichzeitig durch zwei Kameras in jeweils zwei Projektionen
 (Orthogonale Projektion und Perspektivische Projektion) beobachtbar sein.
 
-Dabei sollen die beiden linken Drittel des Fensters durch den Haupt-Viewport ausgefüllt 
-werden und auf dem rechten Drittel sollen die drei weiteren Viewports vertikal 
-übereinander angezeigt werden. Ein Wechsel zwischen den Kameras ist jederzeit möglich 
+Dabei sollen die beiden linken Drittel des Fensters durch den Haupt-Viewport ausgefüllt
+werden und auf dem rechten Drittel sollen die drei weiteren Viewports vertikal
+übereinander angezeigt werden. Ein Wechsel zwischen den Kameras ist jederzeit möglich
 (siehe Unten).
 
 \subsection{Interaktion}
-Die verfügbaren Interaktionen sollen dem Nutzer durch Bildschirm-Overlay angezeigt 
+Die verfügbaren Interaktionen sollen dem Nutzer durch Bildschirm-Overlay angezeigt
 werden. Das Programm wird somit selbsterklärend.
 
 Folgende Eingriffe durch den Benutzer werden ermöglicht:
@@ -49,8 +49,7 @@ Folgende Eingriffe durch den Benutzer werden ermöglicht:
 \item Erhöhen-/Senken der Animationsgeschwindigkeit (Tasten +/-)
 \item Umschalten zwischen Tag- und Nachtmodus (Taste N)
 \item Umschalten zwischen gefülltem, texturierten, und Wireframe-Modus (Taste M)
-\item Nur in Perspektivischer Projektion: Erhöhen-/Senken des Blickwinkels (Tasten Bild 
+\item Nur in Perspektivischer Projektion: Erhöhen-/Senken des Blickwinkels (Tasten Bild
 Auf / Ab)
 \item Verlassen der Anwendung (Taste Q)
 \end{itemize}
-
