@@ -15,10 +15,13 @@ using namespace cg1;
 using namespace glm;
 using namespace std;
 
+typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
+
 GLuint mvpLocation;
 int winWidth = 800, winHeight = 600;
 int lastMouseX = -1, lastMouseY = -1;
 mat4 projectionMatrix;
+RenderMode renderMode = WIREFRAME;
 
 InteractiveFirstPersonCamera camera;
 list<unique_ptr<Model>> models;
@@ -35,12 +38,13 @@ void specialKey(int key, int x, int y);
 void generateModels();
 void init(int argc, char ** args);
 unique_ptr<ShaderProgram> loadShaders();
+void setRenderMode(RenderMode mode);
 
 
 
 int main(int argc, char ** args) {
     init(argc, args);
-    generateModels();    
+    generateModels();
     glutMainLoop();
     return 0;
 }
@@ -78,7 +82,7 @@ void init(int argc, char ** args) {
     // Configure OpenGL
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST); 
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load shaders
@@ -108,12 +112,20 @@ unique_ptr<ShaderProgram> loadShaders() {
     return result;
 }
 
+void setRenderMode(RenderMode mode) {
+    renderMode = mode;
+
+    glPolygonMode(GL_FRONT_AND_BACK, (renderMode == WIREFRAME) ? GL_LINE : GL_FILL);
+}
+
 
 /* GLUT callbacks */
 void keyboard(unsigned char key, int x, int y) {
     camera.processKey(key);
     if (key == 'q')
         exit(0);
+    if (key == 'm')
+        setRenderMode((RenderMode)((renderMode + 1) % 3));
     render();
 }
 
@@ -123,7 +135,7 @@ void passiveMouseMotion(int x, int y) {
     int relativeY = y - lastMouseY;
     float winRelativeX = (float)relativeX / (float)winWidth;
     float winRelativeY = (float)relativeY / (float)winHeight;
-    
+
     /* Ignore first movement, ignore large movements (we assume they're warps) */
     if (lastMouseX != -1 && abs(relativeX) <= 100 && abs(relativeY) <= 100) {
         /* Adjust camera direction */
@@ -162,7 +174,7 @@ void render() {
 
     // Calculate view and projection matrices
     glm::mat4 viewMatrix = camera.getViewMatrix();
-    
+
     for (const unique_ptr<Model> & model : models) {
         glm::mat4 mvp = projectionMatrix * viewMatrix * model->getModelMatrix();
         glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvp[0][0]);
