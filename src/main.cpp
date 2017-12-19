@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Axises.h"
+#include "Cuboid.h"
 #include "InteractiveFirstPersonCamera.h"
 #include "ShaderProgram.h"
 
@@ -47,6 +48,7 @@ int main(int argc, char ** args) {
 void generateModels() {
     models.clear();
     models.emplace_back(new Axises());
+    models.emplace_back(new Cuboid(0.25,0.5,0.75));
 }
 
 void init(int argc, char ** args) {
