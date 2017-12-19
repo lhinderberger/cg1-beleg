@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Axises.h"
-#include "Hemisphere.h"
+#include "Cylinder.h"
 #include "InteractiveFirstPersonCamera.h"
 #include "ShaderProgram.h"
 
@@ -52,7 +52,7 @@ int main(int argc, char ** args) {
 void generateModels() {
     models.clear();
     models.emplace_back(new Axises());
-    models.emplace_back(new Hemisphere(0.25));
+    models.emplace_back(new Cylinder(0.25, 0.5, 16));
 }
 
 void init(int argc, char ** args) {
