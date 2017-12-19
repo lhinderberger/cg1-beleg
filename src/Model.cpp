@@ -1,17 +1,15 @@
+#include <GL/glew.h>
 #include "Model.h"
 
 using namespace cg1;
 using namespace glm;
 
-const glm::mat4 & Model::getModelMatrix() {
-    if (modified)
-        updateModelMatrix();
-    return modelMatrix;
-}
+GLuint Model::modelMatrixLocation = 0;
 
-void Model::updateModelMatrix() {
-    //TODO
-    modified = false;
+
+void Model::render(glm::mat4 parentModelMatrix) {
+    mat4 renderModelMatrix = parentModelMatrix * modelMatrix;
+    glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &renderModelMatrix[0][0]);
 }
 
 vec4 Model::setColor(const vec4 & color) {

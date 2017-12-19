@@ -11,7 +11,7 @@ namespace cg1 {
     
     public:
         Axises(float length = 1000.0f);
-        virtual void render() override;
+        virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;
     };
 };
 

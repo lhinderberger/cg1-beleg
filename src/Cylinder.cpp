@@ -42,7 +42,9 @@ Cylinder::Cylinder(float radius, float height, int subdivisions) {
     vao = VAO::create(vertices);
 }
 
-void Cylinder::render() {
+void Cylinder::render(glm::mat4 parentModelMatrix) {
+    Model::render(parentModelMatrix);
+    
     vao->bind();
 
     const vec4 & color = getColor();

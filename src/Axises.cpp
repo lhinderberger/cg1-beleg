@@ -14,7 +14,9 @@ Axises::Axises(float length) {
 }
 
 
-void Axises::render() {
+void Axises::render(glm::mat4 parentModelMatrix) {
+    Model::render(parentModelMatrix);
+    
     vao->bind();
     
     glVertexAttrib4f(1, 1.0f, 0.0f, 0.0f, 0.5f);

@@ -31,7 +31,8 @@ Cuboid::Cuboid(float width, float height, float depth) {
     vao = VAO::create(vertices, 36, 3);
 }
 
-void Cuboid::render() {
+void Cuboid::render(glm::mat4 parentModelMatrix) {
+    Model::render(parentModelMatrix);
     vao->bind();
     
     const vec4 & color = getColor();

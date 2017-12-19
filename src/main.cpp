@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Axises.h"
-#include "Cylinder.h"
+#include "Billboard.h"
 #include "InteractiveFirstPersonCamera.h"
 #include "ShaderProgram.h"
 
@@ -17,7 +17,7 @@ using namespace std;
 
 typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
 
-GLuint mvpLocation;
+GLuint viewMatrixLocation, projectionMatrixLocation;
 int winWidth = 800, winHeight = 600;
 int lastMouseX = -1, lastMouseY = -1;
 mat4 projectionMatrix;
@@ -52,7 +52,9 @@ int main(int argc, char ** args) {
 void generateModels() {
     models.clear();
     models.emplace_back(new Axises());
-    models.emplace_back(new Cylinder(0.25, 0.5, 16));
+    Billboard * b = new Billboard();
+    //b->modelMatrix = rotate(mat4(), radians(90.0f), vec3(1,0,0));
+    models.emplace_back(b);
 }
 
 void init(int argc, char ** args) {
@@ -88,7 +90,9 @@ void init(int argc, char ** args) {
     // Load shaders
     shaderProgram = loadShaders();
     shaderProgram->use();
-    mvpLocation = glGetUniformLocation(shaderProgram->getId(), "mvp");
+    Model::modelMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "modelMatrix");
+    viewMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "viewMatrix");
+    projectionMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "projectionMatrix");
 
     // Set callbacks and run
     glutDisplayFunc(render);
@@ -96,6 +100,9 @@ void init(int argc, char ** args) {
     glutPassiveMotionFunc(passiveMouseMotion);
     glutReshapeFunc(reshape);
     glutSpecialFunc(specialKey);
+    
+    // Set camera position
+    camera.setPosition(vec3(0.0f,0.2f,10.0f));
 }
 
 unique_ptr<ShaderProgram> loadShaders() {
@@ -167,6 +174,8 @@ void reshape(int width, int height) {
     double aspectRatio = (double)width/height;
     //projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
     projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
+    
+    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
 void render() {
@@ -174,12 +183,10 @@ void render() {
 
     // Calculate view and projection matrices
     glm::mat4 viewMatrix = camera.getViewMatrix();
+    glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
-    for (const unique_ptr<Model> & model : models) {
-        glm::mat4 mvp = projectionMatrix * viewMatrix * model->getModelMatrix();
-        glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvp[0][0]);
+    for (const unique_ptr<Model> & model : models)
         model->render();
-    }
 
     glFlush();
 }

@@ -14,7 +14,7 @@ namespace cg1 {
     public:
         Cuboid(float width, float height, float depth);
         
-        virtual void render() override;
+        virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;
     };
 }
 

@@ -17,7 +17,7 @@ namespace cg1 {
     public:
         Cylinder(float radius, float height, int subdivisions);
 
-        virtual void render() override;
+        virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;
     };
 }
 
