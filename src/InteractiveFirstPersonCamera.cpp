@@ -15,7 +15,7 @@ void InteractiveFirstPersonCamera::processRelativeMouseMotion(float x, float y) 
 }
 
 void InteractiveFirstPersonCamera::processSpecialKey(int key) {
-    float speed = 0.01f;
+    float speed = 0.05f;
     
     if (key == GLUT_KEY_UP)
         moveInYawDirection(vec3(0.0f, 0.0f, -1.0f * speed));
