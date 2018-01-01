@@ -1,5 +1,10 @@
+#include <cmath>
+#include <iostream>
 #include <GL/freeglut.h>
 #include "InteractiveFirstPersonCamera.h"
+
+// Limit Pitch to 90 degrees in order to avoid "flipping over" the camera
+#define MAX_PITCH_RADIANS 1.5708
 
 using namespace cg1;
 using namespace glm;
@@ -11,7 +16,11 @@ void InteractiveFirstPersonCamera::processKey(unsigned char key) {
 void InteractiveFirstPersonCamera::processRelativeMouseMotion(float x, float y) {
     float adjFactor = radians(180.0f);
     setYaw(getYaw() + x * adjFactor);
-    setPitch(getPitch() + y * adjFactor);
+    
+    float newPitch = getPitch() + y * adjFactor;
+    if (fabs(newPitch) > MAX_PITCH_RADIANS)
+    	newPitch = newPitch < 0 ? -1.0f * MAX_PITCH_RADIANS : MAX_PITCH_RADIANS;
+    setPitch(newPitch);
 }
 
 void InteractiveFirstPersonCamera::processSpecialKey(int key) {
