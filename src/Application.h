@@ -16,6 +16,7 @@ namespace cg1 {
 	
 	class Application {
 	private:
+		bool lightingEnabled = false;
 		int winWidth = 800, winHeight = 600;
 		int lastMouseX = -1, lastMouseY = -1;
 
@@ -28,6 +29,7 @@ namespace cg1 {
 		std::unique_ptr<ShaderProgram> shaderProgram;
 		glm::mat4 projectionMatrix;
 		GLuint modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation;
+		GLuint lightingEnabledLocation;
 		
 		void generateModels();
 		void initShaders();
@@ -35,10 +37,12 @@ namespace cg1 {
 	public:
 		Application();
 		
+		inline bool getLightingEnabled() const { return lightingEnabled; }
 		inline GLuint getModelMatrixLocation() const { return modelMatrixLocation; }
 		inline GLuint getViewMatrixLocation() const { return viewMatrixLocation; }
 		inline GLuint getProjectionMatrixLocation() const { return projectionMatrixLocation; }
 		
+		void setLightingEnabled(bool lightingEnabled);
 		void setRenderMode(RenderMode mode);
 		
 		/* GLUT callbacks */

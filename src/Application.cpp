@@ -44,11 +44,17 @@ void Application::initShaders() {
     spFactory.addShader(&vertex);
     shaderProgram = spFactory.link();
     
-    // Retrieve locations
+    // Retrieve uniform locations
     shaderProgram->use();
     modelMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "modelMatrix");
     viewMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "viewMatrix");
     projectionMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "projectionMatrix");
+    lightingEnabledLocation = glGetUniformLocation(shaderProgram->getId(), "lightingEnabled");
+}
+
+void Application::setLightingEnabled(bool lightingEnabled) {
+	this->lightingEnabled = lightingEnabled;
+	glUniform1i(lightingEnabledLocation, lightingEnabled ? GL_TRUE : GL_FALSE);
 }
 
 void Application::setRenderMode(RenderMode mode) {
@@ -118,6 +124,9 @@ void Application::render() {
     glm::mat4 viewMatrix = camera.getViewMatrix();
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
+	setLightingEnabled(true);
+	vec3 ambient = vec3(0.1f,0.1f,0.1f);
+	glUniform3fv(glGetUniformLocation(shaderProgram->getId(), "lightColor"),1,(float*)&ambient);
     for (const unique_ptr<Model> & model : models)
         model->render();
 

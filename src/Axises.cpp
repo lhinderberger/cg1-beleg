@@ -15,6 +15,10 @@ Axises::Axises(Application * application, float length) : Model(application) {
 
 
 void Axises::render(glm::mat4 parentModelMatrix) {
+	Application * application = getApplication();
+	
+	bool lightingEnabled = application->getLightingEnabled();
+	application->setLightingEnabled(false);
     Model::render(parentModelMatrix);
     
     vao->bind();
@@ -27,4 +31,5 @@ void Axises::render(glm::mat4 parentModelMatrix) {
     
     glVertexAttrib4f(1, 0.0f, 0.0f, 1.0f, 0.5f);
     glDrawArrays(GL_LINES, 4, 2);
+    application->setLightingEnabled(lightingEnabled);
 }
