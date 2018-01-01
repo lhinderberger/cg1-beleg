@@ -10,7 +10,7 @@ namespace cg1 {
         std::unique_ptr<VAO> vao;
     
     public:
-        Axises(float length = 1000.0f);
+        Axises(Application * application, float length = 1000.0f);
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;
     };
 };

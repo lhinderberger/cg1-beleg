@@ -15,7 +15,7 @@ namespace cg1 {
         std::vector<std::unique_ptr<Cylinder>> bulbs;
         
     public:
-        Billboard();
+        Billboard(Application * application);
         
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;
     };

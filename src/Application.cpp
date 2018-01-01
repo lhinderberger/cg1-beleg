@@ -18,7 +18,7 @@ Application::Application() {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	// Configure camera
     camera.setPosition(vec3(0.0f,0.2f,10.0f));
@@ -27,8 +27,8 @@ Application::Application() {
 
 void Application::generateModels() {
 	models.clear();
-    models.emplace_back(new Axises());
-    Billboard * b = new Billboard();
+    models.emplace_back(new Axises(this));
+    Billboard * b = new Billboard(this);
     //b->modelMatrix = rotate(mat4(), radians(90.0f), vec3(1,0,0));
     models.emplace_back(b);
 }
@@ -46,7 +46,7 @@ void Application::initShaders() {
     
     // Retrieve locations
     shaderProgram->use();
-    Model::modelMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "modelMatrix");
+    modelMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "modelMatrix");
     viewMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "viewMatrix");
     projectionMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "projectionMatrix");
 }

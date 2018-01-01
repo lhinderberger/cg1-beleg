@@ -7,7 +7,8 @@ using namespace cg1;
 using namespace glm;
 using namespace std;
 
-Cuboid::Cuboid(float width, float height, float depth) {
+Cuboid::Cuboid(Application * application, float width, float height, float depth)
+	: Model(application) {
     float vertices[] = {
         0,0,0, width,0,0, 0,height,0,
         0,height,0, width,height,0, width,0,0,

@@ -5,21 +5,25 @@
 #include <glm/glm.hpp>
 
 namespace cg1 {
+	class Application;
     class Model {
     private:
+    	Application * application;
         glm::vec4 color = glm::vec4(1.0f,1.0f,1.0f,1.0f);
         
-    protected:
-
     public:
-        static GLuint modelMatrixLocation;
         glm::mat4 modelMatrix;
+        
+        Model(Application * application);
 
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4());
         glm::vec4 setColor(const glm::vec4 & color);
 
+		inline Application * getApplication() const { return application; }
         const inline glm::vec4 & getColor() const { return color; }
     };
 };
+
+#include "Application.h"
 
 #endif

@@ -7,7 +7,8 @@ using namespace cg1;
 using namespace glm;
 using namespace std;
 
-Cylinder::Cylinder(float radius, float height, int subdivisions) {
+Cylinder::Cylinder(Application * application, float radius, float height, int subdivisions)
+	: Model(application) {
     nVertices = 2*(subdivisions+1) + 2;
     vector<vec3> vertices(nVertices);
     triangleIndexes.resize(subdivisions*6);

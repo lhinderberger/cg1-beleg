@@ -15,7 +15,7 @@ namespace cg1 {
         std::vector<int> triangleIndexes, triangleStripIndexes;
 
     public:
-        Cylinder(float radius, float height, int subdivisions);
+        Cylinder(Application * application, float radius, float height, int subdivisions);
 
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;
     };

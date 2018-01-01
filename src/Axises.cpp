@@ -5,7 +5,7 @@ using namespace std;
 using namespace cg1;
 using namespace glm;
 
-Axises::Axises(float length) {
+Axises::Axises(Application * application, float length) : Model(application) {
     vao = VAO::create(vector<vec3> {
         vec3(length * -0.5f, 0.0f, 0.0f), vec3(length * 0.5f, 0.0f, 0.0f),
         vec3(0.0f, length * -0.5f, 0.0f), vec3(0.0f, length * 0.5f, 0.0f),
