@@ -1,0 +1,49 @@
+#ifndef CG1_APPLICATION_H
+#define CG1_APPLICATION_H
+
+#include <list>
+#include <memory>
+
+#include <GL/gl.h>
+#include <glm/glm.hpp>
+
+#include "InteractiveFirstPersonCamera.h"
+#include "Model.h"
+#include "ShaderProgram.h"
+
+namespace cg1 {
+	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
+	
+	class Application {
+	private:
+		int winWidth = 800, winHeight = 600;
+		int lastMouseX = -1, lastMouseY = -1;
+
+		RenderMode renderMode = WIREFRAME;
+		
+		InteractiveFirstPersonCamera camera;
+		
+		std::list<std::unique_ptr<Model>> models;
+		
+		std::unique_ptr<ShaderProgram> shaderProgram;
+		glm::mat4 projectionMatrix;
+		GLuint viewMatrixLocation, projectionMatrixLocation;
+		
+		void generateModels();
+		void initShaders();
+		
+	public:
+		Application();
+		
+		void setRenderMode(RenderMode mode);
+		
+		/* GLUT callbacks */
+		void keyboard(unsigned char key, int x, int y);
+		void passiveMouseMotion(int x, int y);
+		void render();
+		void reshape(int width, int height);
+		void specialKey(int key, int x, int y);
+	};
+}
+
+#endif
