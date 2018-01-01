@@ -22,11 +22,17 @@ void specialKey(int key, int x, int y);
 void init(int argc, char ** args);
 
 int main(int argc, char ** args) {
-    init(argc, args);
-    glutMainLoop();
-    if (application)
-    	delete application;
-    return 0;
+	try {
+	    init(argc, args);
+    	glutMainLoop();
+    	if (application)
+    		delete application;
+    	return 0;
+	}
+	catch(exception & e) {
+		cerr << "Exception caught: " << e.what() << endl;
+		return 1;
+	}
 }
 
 void init(int argc, char ** args) {
