@@ -21,16 +21,22 @@ Application::Application() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	// Configure camera
-    camera.setPosition(vec3(0.0f,0.2f,10.0f));
+    camera.setPosition(vec3(0.0f,1.0f,5.0f));
 }
 
 
 void Application::generateModels() {
 	models.clear();
     models.emplace_back(new Axises(this));
+    
     Billboard * b = new Billboard(this);
-    //b->modelMatrix = rotate(mat4(), radians(90.0f), vec3(1,0,0));
     models.emplace_back(b);
+    
+    for (int i = 0; i < 10; i++) {
+	    Cuboid * testBox = new Cuboid(this, 0.3f,0.3f,0.3f);
+	    testBox->modelMatrix = translate(mat4(1.0f), vec3((float)i*0.4f,0,0.4f));
+	    models.emplace_back(testBox);
+    }
 }
 
 void Application::initShaders() {
