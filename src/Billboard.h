@@ -6,13 +6,15 @@
 #include "Cylinder.h"
 
 #include <memory>
+#include <vector>
 
 namespace cg1 {
     class Billboard : public Model {
     private:
         GLuint modelMatrixLocation;
         std::vector<std::unique_ptr<Cuboid>> backplane;
-        std::vector<std::unique_ptr<Cylinder>> bulbs;
+        std::vector<std::vector<std::unique_ptr<Cylinder>>> characterBulbs;
+        std::vector<bool> activeCharacters;
         
     public:
         Billboard(Application * application);
