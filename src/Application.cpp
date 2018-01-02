@@ -54,6 +54,7 @@ void Application::initShaders() {
     shaderProgram->use();
     GLuint id = shaderProgram->getId();
     modelMatrixLocation = glGetUniformLocation(id, "modelMatrix");
+    normalMatrixLocation = glGetUniformLocation(id, "normalMatrix");
     viewMatrixLocation = glGetUniformLocation(id, "viewMatrix");
     projectionMatrixLocation = glGetUniformLocation(id, "projectionMatrix");
     lightingEnabledLocation = glGetUniformLocation(id, "lightingEnabled");
@@ -137,11 +138,7 @@ void Application::render() {
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 	setLightingEnabled(true);
-	vec3 lightColor = vec3(1.0f,1.0f,1.0f);
-	glUniform3fv(glGetUniformLocation(shaderProgram->getId(), "lightColor"),1,(float*)&lightColor);
-	vec3 lightPosition = vec3(0.0f,0.0f,0.0f);
-	glUniform3fv(glGetUniformLocation(shaderProgram->getId(), "lightPosition"),1,(float*)&lightPosition);
-    for (const unique_ptr<Model> & model : models)
+	for (const unique_ptr<Model> & model : models)
         model->render();
 
     glFlush();

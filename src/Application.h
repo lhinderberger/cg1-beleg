@@ -28,8 +28,8 @@ namespace cg1 {
 		
 		std::unique_ptr<ShaderProgram> shaderProgram;
 		glm::mat4 projectionMatrix;
-		GLuint modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation;
-		GLuint objectColorLocation, lightingEnabledLocation;
+		GLuint modelMatrixLocation, normalMatrixLocation, viewMatrixLocation,
+		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation;
 		
 		void generateModels();
 		void initShaders();
@@ -39,6 +39,7 @@ namespace cg1 {
 		
 		inline bool getLightingEnabled() const { return lightingEnabled; }
 		inline GLuint getModelMatrixLocation() const { return modelMatrixLocation; }
+		inline GLuint getNormalMatrixLocation() const { return normalMatrixLocation; }
 		inline GLuint getViewMatrixLocation() const { return viewMatrixLocation; }
 		inline GLuint getProjectionMatrixLocation() const { return projectionMatrixLocation; }
 		

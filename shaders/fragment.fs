@@ -1,8 +1,6 @@
 #version 400 core
 
 uniform bool lightingEnabled;
-uniform vec3 lightColor;
-uniform vec3 lightPosition;
 uniform vec4 objectColor;
 
 layout(location = 0) out vec4 fColor;
@@ -12,6 +10,9 @@ in vec3 fNormal;
 
 void main() {
 	if (lightingEnabled) {
+	    vec3 lightColor = vec3(1.0,1.0,1.0);
+	    vec3 lightPosition = vec3(2.0,2.0,2.0);
+	
 	    vec3 normal = normalize(fNormal);
 	    vec3 lightDirection = normalize(lightPosition - fPosition);
 	    

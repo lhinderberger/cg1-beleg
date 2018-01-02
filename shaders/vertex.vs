@@ -6,6 +6,7 @@
 #version 400 core
 
 uniform mat4 modelMatrix;
+uniform mat3 normalMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
@@ -18,5 +19,5 @@ out vec3 fNormal;
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vPosition, 1.0);
     fPosition = vec3(modelMatrix * vec4(vPosition, 1.0));
-    fNormal = vNormal;
+    fNormal = normalMatrix * vNormal;
 }

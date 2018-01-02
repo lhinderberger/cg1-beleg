@@ -78,7 +78,7 @@ void Cylinder::render(glm::mat4 parentModelMatrix) {
     capVAO->bind();
     
     // Render flipped top cap first
-    setModelMatrixUniform(
+    setModelAndNormalMatrixUniform(
         parentModelMatrix * modelMatrix *
         translate(mat4(), vec3(0,height,0)) *
         rotate(mat4(), radians(180.0f), vec3(1,0,0))
@@ -86,7 +86,7 @@ void Cylinder::render(glm::mat4 parentModelMatrix) {
     glDrawArrays(GL_TRIANGLES, 0, subdivisions*3);
     
     // Reset model matrix and render bottom cap
-    setModelMatrixUniform(parentModelMatrix * modelMatrix);
+    setModelAndNormalMatrixUniform(parentModelMatrix * modelMatrix);
     glDrawArrays(GL_TRIANGLES, 0, subdivisions*3);
     
     // === Render side
