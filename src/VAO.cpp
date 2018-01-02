@@ -7,9 +7,8 @@
 using namespace cg1;
 using namespace std;
 
-VAO::VAO(const GLfloat * vertices, int nVertices, int components) {
-    this->components = components;
-    this->nVertices = nVertices;
+VAO::VAO(const GLfloat * data, int nData) {
+    this->nData = nData;
 
     // Generate array buffer for raw vertex data
     glGenBuffers(1, &vboId);
@@ -20,12 +19,7 @@ VAO::VAO(const GLfloat * vertices, int nVertices, int components) {
     // Bind and load vertex data
 	glBindVertexArray(vaoId);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * components * nVertices, vertices, GL_STATIC_DRAW);
-
-    // Setup default attributes for vertex shader
-    // Position argument #0
-    glVertexAttribPointer(0, components, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * nData, data, GL_STATIC_DRAW);
 }
 
 VAO::~VAO() {
@@ -34,19 +28,19 @@ VAO::~VAO() {
     glDeleteBuffers(1, &vboId);
 }
 
-unique_ptr<VAO> VAO::create(const GLfloat *vertices, int nVertices, int components) {
-    return unique_ptr<VAO>(new VAO(vertices, nVertices, components));
-}
-
-unique_ptr<VAO> VAO::create(const std::vector<glm::vec2> & vertices) {
-    return create((const float*)&vertices[0], vertices.size(), 2);
-}
-
-unique_ptr<VAO> VAO::create(const std::vector<glm::vec3> & vertices) {
-    return create((const float*)&vertices[0], vertices.size(), 3);
+unique_ptr<VAO> VAO::create(const GLfloat * data, int nData) {
+    return unique_ptr<VAO>(new VAO(data, nData));
 }
 
 
 void VAO::bind() {
     glBindVertexArray(vaoId);
+}
+
+void VAO::setupAttribPointer(int index, int size, int stride, int offset, bool normalized) {
+    glVertexAttribPointer(
+        index, size, GL_FLOAT, normalized ? GL_TRUE : GL_FALSE,
+        stride * sizeof(GLfloat), (void*)offset //TODO: Ob das so funktioniert?
+    );
+	glEnableVertexAttribArray(0);
 }

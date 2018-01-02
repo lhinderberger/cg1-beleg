@@ -1,7 +1,11 @@
 #include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Cylinder.h"
 
+#include <cstring>
 #include <iostream>
+
+#define PI 3.1415
 
 using namespace cg1;
 using namespace glm;
@@ -9,46 +13,80 @@ using namespace std;
 
 Cylinder::Cylinder(Application * application, float radius, float height, int subdivisions)
 	: Model(application) {
-    nVertices = 2*(subdivisions+1) + 2;
-    vector<vec3> vertices(nVertices);
-    triangleIndexes.resize(subdivisions*6);
-    triangleStripIndexes.resize((subdivisions+1)*2);
-
-    vertices[0] = vec3(0.0f,0.0f,0.0f);
-
-    for (int y = 0; y < 2; y++) {
-        for (int i = 0; i <= subdivisions; i++) {
-            float angleRadians = (float)i/(float)subdivisions * 2 * 3.1415;
-            vertices[y*subdivisions+i+1] = vec3(radius * sin(angleRadians), y * height, radius * cos(angleRadians));
-        }
+	
+	this->radius = radius;
+	this->height = height;
+	this->subdivisions = subdivisions;
+	
+	// Create vertices and normals for Cap and Side
+	int nCapVertices = subdivisions * 6*3; // One triangle per subdivision
+	float capVertices[nCapVertices];
+	int nSideVertices = subdivisions * 6*6; // Two triangles per subdivision
+	float sideVertices[nSideVertices];
+	for (int i = 0; i < subdivisions; i++) {
+        float angleRadians = (float)i/(float)subdivisions * 2 * PI;
+        float nextAngleRadians = (float)(i+1)/(float)subdivisions * 2 * PI;
+        
+        float x = radius * sin(angleRadians);
+        float z = radius * cos(angleRadians);
+        float nextX = radius * sin(nextAngleRadians);
+        float nextZ = radius * cos(nextAngleRadians);
+        
+        // Create the Cap triangle for the current subdivision
+        float capTriangle[18] = {
+            // Position     //Normal
+            0,0,0,          0,1,0,            
+            x,0,z,          0,1,0,            
+            nextX,0,nextZ,  0,1,0
+        };
+        memcpy(capVertices + i*18, capTriangle, 18 * sizeof(float));
+        
+        // Create the side "quad" for the current subdivision
+        float sideTriangles[36] = {
+            // Position             // Normal (TODO)
+            x,0,z,                  -1,-1,-1,
+            nextX,0,nextZ,          -1,-1,-1,
+            x,height,z,             -1,-1,-1,
+            
+            x,height,z,             -1,-1,-1,
+            nextX,0,nextZ,          -1,-1,-1,
+            nextX,height,nextZ,     -1,-1,-1
+        };
+        memcpy(sideVertices + i*36, sideTriangles, 36 * sizeof(float));
     }
-
-    vertices[nVertices-1] = vec3(0.0f,height,0.0f);
-
-    for (int i = 0; i < subdivisions; i++) {
-        triangleIndexes[i*6] = 0;
-        triangleIndexes[i*6+1] = 1+i;
-        triangleIndexes[i*6+2] = 1+(i+1)%subdivisions;
-
-        triangleIndexes[i*6+3] = nVertices-1;
-        triangleIndexes[i*6+4] = i+1+subdivisions;
-        triangleIndexes[i*6+5] = i+2+subdivisions;
-    }
-
-    for (int i=0; i <= subdivisions; i++) {
-        triangleStripIndexes[i*2] = i%subdivisions + 1;
-        triangleStripIndexes[i*2+1] = triangleStripIndexes[i*2]+subdivisions;
-    }
-
-    vao = VAO::create(vertices);
+    
+    // Create Cap VAO
+	capVAO = VAO::create(capVertices, nCapVertices);
+	capVAO->setupAttribPointer(0,3,6);
+    //vao->setupAttribPointer(1,3,6,3); TODO: Enable for lighting
+    
+    // Create Side VAO
+	sideVAO = VAO::create(sideVertices, nSideVertices);
+	sideVAO->setupAttribPointer(0,3,6);
+    //vao->setupAttribPointer(1,3,6,3); TODO: Enable for lighting
 }
 
-void Cylinder::render(glm::mat4 parentModelMatrix) {
-    vao->bind();
-    setModelMatrixUniform(parentModelMatrix * modelMatrix);
-
+void Cylinder::render(glm::mat4 parentModelMatrix) {    
+    // Set color
     const vec4 & color = getColor();
     glVertexAttrib4f(1, color.r, color.g, color.b, color.a);
-    glDrawElements(GL_TRIANGLES, triangleIndexes.size(), GL_UNSIGNED_INT, &(triangleIndexes[0]));
-    glDrawElements(GL_TRIANGLE_STRIP, triangleStripIndexes.size(), GL_UNSIGNED_INT, &(triangleStripIndexes[0]));
+    
+    // === Render Caps
+    capVAO->bind();
+    
+    // Render flipped top cap first
+    setModelMatrixUniform(
+        parentModelMatrix * modelMatrix *
+        translate(mat4(), vec3(0,height,0)) *
+        rotate(mat4(), radians(180.0f), vec3(1,0,0))
+    );
+    glDrawArrays(GL_TRIANGLES, 0, subdivisions*3);
+    
+    // Reset model matrix and render bottom cap
+    setModelMatrixUniform(parentModelMatrix * modelMatrix);
+    glDrawArrays(GL_TRIANGLES, 0, subdivisions*3);
+    
+    // === Render side
+    sideVAO->bind();
+    glDrawArrays(GL_TRIANGLES, 0, subdivisions*6);
 }

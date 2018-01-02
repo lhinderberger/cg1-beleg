@@ -6,11 +6,19 @@ using namespace cg1;
 using namespace glm;
 
 Axises::Axises(Application * application, float length) : Model(application) {
-    vao = VAO::create(vector<vec3> {
-        vec3(length * -0.5f, 0.0f, 0.0f), vec3(length * 0.5f, 0.0f, 0.0f),
-        vec3(0.0f, length * -0.5f, 0.0f), vec3(0.0f, length * 0.5f, 0.0f),
-        vec3(0.0f, 0.0f, length * -0.5f), vec3(0.0f, 0.0f, length * 0.5f)
-    });
+    const int nVertices = 18;
+    float vertices[nVertices] = {
+        length * -0.5f, 0.0f, 0.0f,
+        length * 0.5f, 0.0f, 0.0f,
+        
+        0.0f, length * -0.5f, 0.0f,
+        0.0f, length * 0.5f, 0.0f,
+        
+        0.0f, 0.0f, length * -0.5f,
+        0.0f, 0.0f, length * 0.5f
+    };
+    vao = VAO::create(vertices, nVertices);
+    vao->setupAttribPointer(0, 3);
 }
 
 
