@@ -29,7 +29,7 @@ Billboard::Billboard(Application * application) : Model(application) {
         for (int c = 0; c < nCharacters; c++) {
             for (int col = 0; col < 8; col++) {
                 if (pattern[row][c] & (0b10000000>>col)) {
-                    Cylinder * bulb = new Cylinder(getApplication(), 0.025, 0.05, 16);
+                    Cylinder * bulb = new Cylinder(getApplication(), 0.025, 0.05, 64);
                     bulb->setColor(vec4(1.0f,0.0f,0.0f,1.0f));
                     bulb->modelMatrix = translate(bulb->modelMatrix, vec3(c*8*0.1 + col * 0.075, (nRows-row) * 0.1, 0));
                     bulb->modelMatrix = rotate(bulb->modelMatrix, radians(90.0f), vec3(1,0,0));
