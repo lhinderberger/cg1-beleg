@@ -20,7 +20,7 @@ void Model::setModelAndNormalMatrixUniform(mat4 processedModelMatrix) {
         application->getModelMatrixLocation(), 1, GL_FALSE,
         &processedModelMatrix[0][0]
     );
-    mat4 normalMatrix = mat3(transpose(inverse(processedModelMatrix)));
+    mat3 normalMatrix = mat3(transpose(inverse(processedModelMatrix)));
     glUniformMatrix3fv(
         application->getNormalMatrixLocation(), 1, GL_FALSE,
         &normalMatrix[0][0]

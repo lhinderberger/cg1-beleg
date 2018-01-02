@@ -12,13 +12,13 @@ in vec3 fNormal;
 void main() {
 	if (lightingEnabled) {
 	    vec3 lightColor = vec3(1.0,1.0,1.0);
-	    vec3 lightPosition = vec3(0.0,1.0,0.0);
+	    vec3 lightPosition = vec3(1.0,1.0,1.0);
 	
 	    vec3 normal = normalize(fNormal);
-	    vec3 lightDirection = normalize(fPosition - cameraPosition);
+	    vec3 lightDirection = normalize(lightPosition - fPosition);
 	    
 	    vec3 viewingDirection = normalize(cameraPosition - fPosition);
-	    vec3 reflectionDirection = reflect(lightDirection, normal);
+	    vec3 reflectionDirection = reflect(-1.0 * lightDirection, normal);
 	    
 	    float ambientStrength = 0.1;
 	    float diffuseStrength = 1.0;
@@ -26,7 +26,7 @@ void main() {
 	    float specularStrength = 0.5;
 	    
 	    vec3 ambient = ambientStrength * lightColor;
-	    vec3 diffuse = diffuseStrength * max(dot(normal, -1.0 * lightDirection), 0.0) * lightColor;
+	    vec3 diffuse = diffuseStrength * max(dot(normal, lightDirection), 0.0) * lightColor;
 	    vec3 specular = specularStrength * pow(max(dot(viewingDirection, reflectionDirection), 0.0), specularShininess) * lightColor;
 	    
 	    fColor = vec4((ambient + diffuse + specular) * objectColor.rgb, objectColor.a);

@@ -35,9 +35,9 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
         // Create the Cap triangle for the current subdivision
         float capTriangle[18] = {
             // Position     //Normal
-            0,0,0,          0,1,0,            
-            x,0,z,          0,1,0,            
-            nextX,0,nextZ,  0,1,0
+            0,0,0,          0,-1,0,            
+            x,0,z,          0,-1,0,            
+            nextX,0,nextZ,  0,-1,0
         };
         memcpy(capVertices + i*18, capTriangle, 18 * sizeof(float));
         
