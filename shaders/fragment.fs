@@ -12,7 +12,7 @@ in vec3 fNormal;
 void main() {
 	if (lightingEnabled) {
 	    vec3 lightColor = vec3(1.0,1.0,1.0);
-	    vec3 lightPosition = vec3(2.0,2.0,2.0);
+	    vec3 lightPosition = vec3(0.0,1.0,0.0);
 	
 	    vec3 normal = normalize(fNormal);
 	    vec3 lightDirection = normalize(fPosition - cameraPosition);
@@ -21,7 +21,7 @@ void main() {
 	    vec3 reflectionDirection = reflect(lightDirection, normal);
 	    
 	    float ambientStrength = 0.1;
-	    float diffuseStrength = 0.7;
+	    float diffuseStrength = 1.0;
 	    float specularShininess = 32;
 	    float specularStrength = 0.5;
 	    

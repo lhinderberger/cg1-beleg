@@ -32,6 +32,11 @@ void Application::generateModels() {
     Billboard * b = new Billboard(this);
     models.emplace_back(b);
     
+    Cuboid * ground = new Cuboid(this, 10.0f, 0.01f, 10.0f);
+    ground->setColor(vec4(0.1,0.7,0.1,1.0));
+    ground->modelMatrix = translate(mat4(1.0f), vec3(-5.0f, 0.0f, -5.0f));
+    models.emplace_back(ground);
+    
     for (int i = 0; i < 10; i++) {
 	    Cuboid * testBox = new Cuboid(this, 0.3f,0.3f,0.3f);
 	    testBox->modelMatrix = translate(mat4(1.0f), vec3((float)i*0.4f,0,0.4f));
