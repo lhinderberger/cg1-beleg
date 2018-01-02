@@ -42,15 +42,19 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
         memcpy(capVertices + i*18, capTriangle, 18 * sizeof(float));
         
         // Create the side "quad" for the current subdivision
+        float normalAngleRadians = ((float)i + 0.5f)/(float)subdivisions * 2 * PI;
+        float normalX = sin(normalAngleRadians);
+        float normalZ = cos(normalAngleRadians);
+        
         float sideTriangles[36] = {
-            // Position             // Normal (TODO)
-            x,0,z,                  -1,-1,-1,
-            nextX,0,nextZ,          -1,-1,-1,
-            x,height,z,             -1,-1,-1,
+            // Position             // Normal
+            x,0,z,                  normalX,0,normalZ,
+            nextX,0,nextZ,          normalX,0,normalZ,
+            x,height,z,             normalX,0,normalZ,
             
-            x,height,z,             -1,-1,-1,
-            nextX,0,nextZ,          -1,-1,-1,
-            nextX,height,nextZ,     -1,-1,-1
+            x,height,z,             normalX,0,normalZ,
+            nextX,0,nextZ,          normalX,0,normalZ,
+            nextX,height,nextZ,     normalX,0,normalZ,
         };
         memcpy(sideVertices + i*36, sideTriangles, 36 * sizeof(float));
     }
