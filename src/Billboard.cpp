@@ -48,8 +48,6 @@ void Billboard::render(glm::mat4 parentModelMatrix) {
 	Application * application = getApplication();
     bool lightingEnabled = application->getLightingEnabled();
     
-    Model::render(parentModelMatrix);
-    
     // Render inactive bulbs
     for (int c = 0; c < nCharacters; c++) {
     	if (!activeCharacters[c]) {

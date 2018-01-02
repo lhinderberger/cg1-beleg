@@ -15,9 +15,11 @@ namespace cg1 {
         glm::mat4 modelMatrix;
         
         Model(Application * application);
+        
+        virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) = 0;
 
-        virtual void render(glm::mat4 parentModelMatrix = glm::mat4());
         glm::vec4 setColor(const glm::vec4 & color);
+        void setModelMatrixUniform(glm::mat4 processedModelMatrix);
 
 		inline Application * getApplication() const { return application; }
         const inline glm::vec4 & getColor() const { return color; }

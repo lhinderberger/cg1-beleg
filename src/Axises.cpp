@@ -19,7 +19,8 @@ void Axises::render(glm::mat4 parentModelMatrix) {
 	
 	bool lightingEnabled = application->getLightingEnabled();
 	application->setLightingEnabled(false);
-    Model::render(parentModelMatrix);
+	
+    setModelMatrixUniform(parentModelMatrix * modelMatrix);
     
     vao->bind();
     
