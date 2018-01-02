@@ -57,6 +57,7 @@ void Application::initShaders() {
     normalMatrixLocation = glGetUniformLocation(id, "normalMatrix");
     viewMatrixLocation = glGetUniformLocation(id, "viewMatrix");
     projectionMatrixLocation = glGetUniformLocation(id, "projectionMatrix");
+    cameraPositionLocation = glGetUniformLocation(id, "cameraPosition");
     lightingEnabledLocation = glGetUniformLocation(id, "lightingEnabled");
     objectColorLocation = glGetUniformLocation(id, "objectColor");
 }
@@ -136,8 +137,12 @@ void Application::render() {
     // Calculate view and projection matrices
     glm::mat4 viewMatrix = camera.getViewMatrix();
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-
+    
+    // Setup uniforms
+    glUniform3fv(cameraPositionLocation, 1, (const float*)&camera.getPosition());
 	setLightingEnabled(true);
+	
+	// Render each model
 	for (const unique_ptr<Model> & model : models)
         model->render();
 

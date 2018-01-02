@@ -29,7 +29,8 @@ namespace cg1 {
 		std::unique_ptr<ShaderProgram> shaderProgram;
 		glm::mat4 projectionMatrix;
 		GLuint modelMatrixLocation, normalMatrixLocation, viewMatrixLocation,
-		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation;
+		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation,
+		cameraPositionLocation;
 		
 		void generateModels();
 		void initShaders();
