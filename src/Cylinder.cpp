@@ -72,8 +72,7 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
 
 void Cylinder::render(glm::mat4 parentModelMatrix) {    
     // Set color
-    const vec4 & color = getColor();
-    glVertexAttrib4f(1, color.r, color.g, color.b, color.a);
+    getApplication()->setObjectColor(getColor());
     
     // === Render Caps
     capVAO->bind();

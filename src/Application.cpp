@@ -52,15 +52,21 @@ void Application::initShaders() {
     
     // Retrieve uniform locations
     shaderProgram->use();
-    modelMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "modelMatrix");
-    viewMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "viewMatrix");
-    projectionMatrixLocation = glGetUniformLocation(shaderProgram->getId(), "projectionMatrix");
-    lightingEnabledLocation = glGetUniformLocation(shaderProgram->getId(), "lightingEnabled");
+    GLuint id = shaderProgram->getId();
+    modelMatrixLocation = glGetUniformLocation(id, "modelMatrix");
+    viewMatrixLocation = glGetUniformLocation(id, "viewMatrix");
+    projectionMatrixLocation = glGetUniformLocation(id, "projectionMatrix");
+    lightingEnabledLocation = glGetUniformLocation(id, "lightingEnabled");
+    objectColorLocation = glGetUniformLocation(id, "objectColor");
 }
 
 void Application::setLightingEnabled(bool lightingEnabled) {
 	this->lightingEnabled = lightingEnabled;
 	glUniform1i(lightingEnabledLocation, lightingEnabled ? GL_TRUE : GL_FALSE);
+}
+
+void Application::setObjectColor(const vec4 & color) {
+    glUniform4fv(objectColorLocation, 1, (const float*)&color);
 }
 
 void Application::setRenderMode(RenderMode mode) {

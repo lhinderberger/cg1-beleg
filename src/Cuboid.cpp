@@ -74,7 +74,6 @@ void Cuboid::render(glm::mat4 parentModelMatrix) {
     vao->bind();
     setModelMatrixUniform(parentModelMatrix * modelMatrix);
     
-    const vec4 & color = getColor();
-    glVertexAttrib4f(1, color.r, color.g, color.b, color.a);
+    getApplication()->setObjectColor(getColor());
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }

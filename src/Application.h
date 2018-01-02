@@ -29,7 +29,7 @@ namespace cg1 {
 		std::unique_ptr<ShaderProgram> shaderProgram;
 		glm::mat4 projectionMatrix;
 		GLuint modelMatrixLocation, viewMatrixLocation, projectionMatrixLocation;
-		GLuint lightingEnabledLocation;
+		GLuint objectColorLocation, lightingEnabledLocation;
 		
 		void generateModels();
 		void initShaders();
@@ -43,6 +43,7 @@ namespace cg1 {
 		inline GLuint getProjectionMatrixLocation() const { return projectionMatrixLocation; }
 		
 		void setLightingEnabled(bool lightingEnabled);
+		void setObjectColor(const glm::vec4 & color);
 		void setRenderMode(RenderMode mode);
 		
 		/* GLUT callbacks */
