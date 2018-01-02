@@ -62,12 +62,12 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
     // Create Cap VAO
 	capVAO = VAO::create(capVertices, nCapVertices);
 	capVAO->setupAttribPointer(0,3,6);
-    //vao->setupAttribPointer(1,3,6,3); TODO: Enable for lighting
+    capVAO->setupAttribPointer(1,3,6,3);
     
     // Create Side VAO
 	sideVAO = VAO::create(sideVertices, nSideVertices);
 	sideVAO->setupAttribPointer(0,3,6);
-    //vao->setupAttribPointer(1,3,6,3); TODO: Enable for lighting
+    sideVAO->setupAttribPointer(1,3,6,3);
 }
 
 void Cylinder::render(glm::mat4 parentModelMatrix) {    

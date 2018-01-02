@@ -67,7 +67,7 @@ Cuboid::Cuboid(Application * application, float width, float height, float depth
     
     vao = VAO::create(vertices, 36*6);
     vao->setupAttribPointer(0,3,6);
-    //vao->setupAttribPointer(1,3,6,3); TODO: Enable for lighting
+    vao->setupAttribPointer(1,3,6,3);
 }
 
 void Cuboid::render(glm::mat4 parentModelMatrix) {

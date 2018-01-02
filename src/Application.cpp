@@ -137,8 +137,10 @@ void Application::render() {
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 	setLightingEnabled(true);
-	vec3 ambient = vec3(0.1f,0.1f,0.1f);
-	glUniform3fv(glGetUniformLocation(shaderProgram->getId(), "lightColor"),1,(float*)&ambient);
+	vec3 lightColor = vec3(1.0f,1.0f,1.0f);
+	glUniform3fv(glGetUniformLocation(shaderProgram->getId(), "lightColor"),1,(float*)&lightColor);
+	vec3 lightPosition = vec3(0.0f,0.0f,0.0f);
+	glUniform3fv(glGetUniformLocation(shaderProgram->getId(), "lightPosition"),1,(float*)&lightPosition);
     for (const unique_ptr<Model> & model : models)
         model->render();
 

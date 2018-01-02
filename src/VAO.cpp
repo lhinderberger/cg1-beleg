@@ -40,7 +40,7 @@ void VAO::bind() {
 void VAO::setupAttribPointer(int index, int size, int stride, int offset, bool normalized) {
     glVertexAttribPointer(
         index, size, GL_FLOAT, normalized ? GL_TRUE : GL_FALSE,
-        stride * sizeof(GLfloat), (void*)offset //TODO: Ob das so funktioniert?
+        stride * sizeof(GLfloat), (void*)(offset * sizeof(GLfloat))
     );
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(index);
 }
