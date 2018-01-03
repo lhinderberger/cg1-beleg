@@ -63,12 +63,12 @@ namespace cg1 {
 		void setRenderMode(RenderMode mode);
 		
 		/* GLUT callbacks */
+		void idle();
 		void keyboard(unsigned char key, int x, int y);
 		void passiveMouseMotion(int x, int y);
 		void render();
 		void reshape(int width, int height);
 		void specialKey(int key, int x, int y);
-		void animationTimer();
 	};
 }
 

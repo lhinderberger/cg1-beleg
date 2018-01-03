@@ -17,12 +17,10 @@ void passiveMouseMotion(int x, int y);
 void render();
 void reshape(int width, int height);
 void specialKey(int key, int x, int y);
-void timer(int value);
+void idle();
 
 /* Other methods */
 void init(int argc, char ** args);
-
-#define ANIMATION_INTERVAL_MS 40
 
 int main(int argc, char ** args) {
 	try {
@@ -71,7 +69,7 @@ void init(int argc, char ** args) {
     glutPassiveMotionFunc(passiveMouseMotion);
     glutReshapeFunc(reshape);
     glutSpecialFunc(specialKey);
-    glutTimerFunc(ANIMATION_INTERVAL_MS, timer, 0);
+    glutIdleFunc(idle);
 }
 
 
@@ -102,8 +100,7 @@ void specialKey(int key, int x, int y) {
     	application->specialKey(key,x,y);
 }
 
-void timer(int value) {
+void idle() {
     if (application)
-        application->animationTimer();
-    glutTimerFunc(ANIMATION_INTERVAL_MS, timer, 0);    
+        application->idle();  
 }

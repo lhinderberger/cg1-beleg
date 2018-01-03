@@ -26,10 +26,11 @@ Application::Application() {
 }
 
 
-void Application::animationTimer() {
-    boxRotation += 0.05;
+void Application::idle() {
+    int elapsedMs = glutGet(GLUT_ELAPSED_TIME);
+    boxRotation = (float)elapsedMs / 1000.0f;
     spinningBox->modelMatrix = rotate(translate(mat4(1.0f), vec3(1.0f,0.0f,2.0f)), boxRotation, vec3(0,1,0));
-    render();
+    glutPostRedisplay();
 }
 
 void Application::generateModels() {
@@ -105,7 +106,7 @@ void Application::setObjectColor(const vec4 & color) {
 void Application::setRenderMode(RenderMode mode) {
     renderMode = mode;
     glPolygonMode(GL_FRONT_AND_BACK, (renderMode == WIREFRAME) ? GL_LINE : GL_FILL);
-    render();
+    glutPostRedisplay();
 }
 
 
@@ -117,7 +118,7 @@ void Application::keyboard(unsigned char key, int x, int y) {
         exit(0);
     if (key == 'm')
         setRenderMode((RenderMode)((renderMode + 1) % 3));
-    render();
+    glutPostRedisplay();
 }
 
 void Application::passiveMouseMotion(int x, int y) {
@@ -146,7 +147,7 @@ void Application::passiveMouseMotion(int x, int y) {
 
     lastMouseX = x;
     lastMouseY = y;
-    render();
+    glutPostRedisplay();
 }
 
 void Application::reshape(int width, int height) {
@@ -228,6 +229,6 @@ void Application::setupSunLight() {
 
 void Application::specialKey(int key, int x, int y) {
     camera.processSpecialKey(key);
-    render();
+    glutPostRedisplay();
 }
 
