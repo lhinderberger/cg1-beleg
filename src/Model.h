@@ -1,8 +1,12 @@
 #ifndef CG1_MODEL
 #define CG1_MODEL
 
+#include <list>
+
 #include <GL/gl.h>
 #include <glm/glm.hpp>
+
+#include "Light.h"
 
 namespace cg1 {
 	class Application;
@@ -16,6 +20,7 @@ namespace cg1 {
         
         Model(Application * application);
         
+        virtual std::list<PointLight> getPointLights();
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) = 0;
 
         glm::vec4 setColor(const glm::vec4 & color);

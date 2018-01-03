@@ -11,6 +11,19 @@ namespace cg1 {
         glm::vec3 specular = glm::vec3(0.5f);
         glm::vec3 diffuse = glm::vec3(1.0f);
     };
+    
+    class PointLight {
+    public:
+        glm::vec3 position = glm::vec3(0.0f);
+        
+        glm::vec3 ambient = glm::vec3(0.1f);
+        glm::vec3 specular = glm::vec3(0.5f);
+        glm::vec3 diffuse = glm::vec3(1.0f);
+        
+        float constantDecay = 1.0f;
+        float linearDecay = 0.7f;
+        float quadraticDecay = 1.8f;
+    };
 };
 
 #endif

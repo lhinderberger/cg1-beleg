@@ -4,12 +4,17 @@
 
 using namespace cg1;
 using namespace glm;
+using namespace std;
 
 Model::Model(Application * application) {
 	assert(application);
 	this->application = application;
 }
 
+
+list<PointLight> Model::getPointLights() {
+    return list<PointLight>();
+}
 
 vec4 Model::setColor(const vec4 & color) {
     this->color = color;

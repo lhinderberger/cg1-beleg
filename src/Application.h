@@ -13,6 +13,8 @@
 #include "Model.h"
 #include "ShaderProgram.h"
 
+#define MAX_POINT_LIGHTS 64 // If needed, change in fragment shader as well
+
 namespace cg1 {
 	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
 	
@@ -35,10 +37,12 @@ namespace cg1 {
 		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation,
 		cameraPositionLocation, materialAmbientLocation, materialDiffuseLocation,
 		materialSpecularLocation, materialShininessLocation, sunDirectionLocation,
-		sunAmbientLocation, sunDiffuseLocation, sunSpecularLocation;
+		sunAmbientLocation, sunDiffuseLocation, sunSpecularLocation, nPointLightsLocation;
 		
 		void generateModels();
 		void initShaders();
+		void setupSunLight();
+		void setupPointLights();
 		
 	public:
 		Application();

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -73,6 +74,7 @@ void Application::initShaders() {
     sunAmbientLocation = glGetUniformLocation(id, "sun.ambient");
     sunDiffuseLocation = glGetUniformLocation(id, "sun.diffuse");
     sunSpecularLocation = glGetUniformLocation(id, "sun.specular");
+    nPointLightsLocation = glGetUniformLocation(id, "nPointLights");
 }
 
 void Application::setLightingEnabled(bool lightingEnabled) {
@@ -160,17 +162,58 @@ void Application::render() {
     
     // Setup uniforms
     glUniform3fv(cameraPositionLocation, 1, (const float*)&camera.getPosition());
-    glUniform3fv(sunDirectionLocation, 1, (const float*)&sun.direction);
-    glUniform3fv(sunAmbientLocation, 1, (const float*)&sun.ambient);
-    glUniform3fv(sunDiffuseLocation, 1, (const float*)&sun.diffuse);
-    glUniform3fv(sunSpecularLocation, 1, (const float*)&sun.specular);
 	setLightingEnabled(true);
+	
+	// Setup lights
+    setupSunLight();
+    setupPointLights();
 	
 	// Render each model
 	for (const unique_ptr<Model> & model : models)
         model->render();
 
     glFlush();
+}
+
+void Application::setupPointLights() {
+    list<PointLight> pointLights;
+    
+    // Retrieve all point lights in the scene
+    for (const unique_ptr<Model> & model : models)
+        pointLights.splice(pointLights.end(), model->getPointLights());
+        
+    // Set uniforms
+    GLuint id = shaderProgram->getId();
+    int i = 0;
+    for (const PointLight & l : pointLights) {
+        if (i > MAX_POINT_LIGHTS) {
+            cerr << "Max Point Lights exceeded!" << endl;
+            break;
+        }
+        
+        char prefix[64];
+        sprintf(prefix, "pointLights[%d].", i);
+        string sPrefix(prefix);
+        
+        glUniform3fv(glGetUniformLocation(id, (sPrefix + "position").c_str()), 1, (const float*)&l.position);
+        glUniform3fv(glGetUniformLocation(id, (sPrefix + "ambient").c_str()), 1, (const float*)&l.ambient);
+        glUniform3fv(glGetUniformLocation(id, (sPrefix + "diffuse").c_str()), 1, (const float*)&l.diffuse);
+        glUniform3fv(glGetUniformLocation(id, (sPrefix + "specular").c_str()), 1, (const float*)&l.specular);
+        glUniform1f(glGetUniformLocation(id, (sPrefix + "constantDecay").c_str()), l.constantDecay);
+        glUniform1f(glGetUniformLocation(id, (sPrefix + "linearDecay").c_str()), l.linearDecay);
+        glUniform1f(glGetUniformLocation(id, (sPrefix + "quadraticDecay").c_str()), l.quadraticDecay);
+
+        i++;
+    }
+    
+    glUniform1i(nPointLightsLocation, i);
+}
+
+void Application::setupSunLight() {
+    glUniform3fv(sunDirectionLocation, 1, (const float*)&sun.direction);
+    glUniform3fv(sunAmbientLocation, 1, (const float*)&sun.ambient);
+    glUniform3fv(sunDiffuseLocation, 1, (const float*)&sun.diffuse);
+    glUniform3fv(sunSpecularLocation, 1, (const float*)&sun.specular);
 }
 
 void Application::specialKey(int key, int x, int y) {
