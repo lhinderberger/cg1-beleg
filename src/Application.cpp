@@ -8,6 +8,7 @@
 #include "Billboard.h"
 #include "Dice.h"
 #include "Plane.h"
+#include "Overlay.h"
 
 using namespace cg1;
 using namespace glm;
@@ -44,6 +45,8 @@ void Application::idle() {
 void Application::generateModels() {
 	models.clear();
     //models.emplace_back(new Axises(this));
+    
+    overlay = new Overlay(this);
     
     Plane * ground = new Plane(this, 10.0f, 10.0f);
     ground->modelMatrix = translate(mat4(1.0f), vec3(-5.0f, 0.0f, -5.0f));
@@ -136,6 +139,8 @@ void Application::keyboard(unsigned char key, int x, int y) {
         setRenderMode((RenderMode)((renderMode + 1) % 3));
     else if (key == 'b')
         billboard->cyclePattern();
+    else if (key == 'o')
+        displayOverlay = !displayOverlay;
     glutPostRedisplay();
 }
 
@@ -177,8 +182,6 @@ void Application::reshape(int width, int height) {
     double aspectRatio = (double)width/height;
     //projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
     projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
-    
-    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
 void Application::render() {
@@ -187,6 +190,7 @@ void Application::render() {
     // Calculate view and projection matrices
     glm::mat4 viewMatrix = camera.getViewMatrix();
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
     
     // Setup uniforms
     glUniform3fv(cameraPositionLocation, 1, (const float*)&camera.getPosition());
@@ -199,6 +203,16 @@ void Application::render() {
 	// Render each model
 	for (const unique_ptr<Model> & model : models)
         model->render();
+    
+    // Render overlay
+    if (displayOverlay) {
+        glDisable(GL_DEPTH_TEST);
+        setLightingEnabled(false);
+        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &mat4(1.0f)[0][0]);
+        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &mat4(1.0f)[0][0]);
+        overlay->render();
+        glEnable(GL_DEPTH_TEST);
+    }
 
     glFlush();
 }
@@ -236,6 +250,7 @@ void Application::setupPointLights() {
     }
     
     glUniform1i(nPointLightsLocation, i);
+    
 }
 
 void Application::setupSunLight() {

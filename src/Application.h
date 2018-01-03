@@ -18,6 +18,7 @@
 namespace cg1 {
     class Billboard;
     class Dice;
+    class Overlay;
 	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
 	
 	class Application {
@@ -26,7 +27,9 @@ namespace cg1 {
     	float diceRotation = 0.0f;
     	Billboard * billboard;
         Dice * spinningDice;
+        Overlay * overlay;
 	
+	    bool displayOverlay = true;
 		bool lightingEnabled = false;
 		bool texturingEnabled = false;
 		int winWidth = 800, winHeight = 600;

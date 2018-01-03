@@ -5,30 +5,29 @@ realisierenden Szene lässt, fällt die Wahl auf eine Szene, welche folgende Obj
 enthält:
 
 \begin{itemize}
-\item Eine Skybox, mit einer Wolken-/Sternetextur belegt (simuliert den Himmel)
-\item Ein Quader, welcher ein Hochhaus darstellen soll und mit einer entsprechenden
-Textur belegt ist.
-\item Ein weiterer Quader mit zahlreichen, darauf befestigten kleinen Zylindern,
-welche eine Glühbirnen-Leuchtreklame mit dem Text "OPEN GL" darstellen sollen.
-Die Leuchtreklame ist an der Fassade des Hochhauses angebracht.
+\item Ein Quader mit zahlreichen, darauf befestigten kleinen Zylindern,
+welche eine Glühbirnen-Leuchtreklame mit dem Text "Open GL" darstellen sollen.
+\item Mehrere im Raum verteilte Würfel, welche mit einer Spielwürfel-Textur belegt sind.
+\item Ein großes Rechteck, welches den Boden darstellt und mit einer Holztextur
+belegt ist.
 \end{itemize}
 
 \subsection{Lichtquellen}
-Im Tagmodus soll durch globale Beleuchtung die ganze Szene gut sichtbar sein. Im
-Nachtmodus wird die globale Beleuchtung auf ein Minimum reduziert.
-
+Durch globale direktionale Beleuchtung soll die ganze Szene gut sichtbar sein.
 Die Glühbirnen der Leuchtreklame leuchten farbig.
 
 \subsection{Animation}
-Die Wörter "OPEN" und "GL" leuchten in verschiedenen, interaktiv wählbaren
+Die Buchstaben der Leuchtreklame leuchten in verschiedenen, interaktiv wählbaren
 Blinkmustern auf.
+Einer der Würfel schwebt in der Höhe und rotiert, sodass darauf gut Lichteffekte sichtbar
+werden.
 
 \subsection{Viewports und Kameras}
 Die Szene soll gleichzeitig durch zwei Kameras in jeweils zwei Projektionen
 (Orthogonale Projektion und Perspektivische Projektion) beobachtbar sein.
 
 Dabei sollen die beiden linken Drittel des Fensters durch den Haupt-Viewport ausgefüllt
-werden und auf dem rechten Drittel sollen die drei weiteren Viewports vertikal
+werden und auf dem rechten Drittel sollen die vier Kameraansichten vertikal
 übereinander angezeigt werden. Ein Wechsel zwischen den Kameras ist jederzeit möglich
 (siehe Unten).
 
@@ -40,15 +39,10 @@ Folgende Eingriffe durch den Benutzer werden ermöglicht:
 
 \begin{itemize}
 \item Ein-/Ausblenden des Overlays (Taste O)
-\item Umschalten der im Haupt-Viewport aktiven Kamera (Tasten K)
-\item Umschalten der im Haupt-Viewport aktiven Projektion (Taste P)
+\item Umschalten der im Haupt-Viewport aktiven Kamera (Tasten 1-4)
 \item Bewegung der derzeit aktiven Kamera in der Ebene (Pfeiltasten oder W,A,S,D)
-\item Bewegungsgeschwindigkeit erhöhen (Shift gedrückt halten)
 \item Drehung und Neigung (Pitch/Yaw) der Kamera (Bewegung der Maus)
 \item Umschalten des Blinkmusters (Taste B)
-\item Umschalten zwischen Tag- und Nachtmodus (Taste N)
 \item Umschalten zwischen gefülltem, texturierten, und Wireframe-Modus (Taste M)
-\item Nur in Perspektivischer Projektion: Erhöhen-/Senken des Blickwinkels (Tasten Bild
-Auf / Ab)
 \item Verlassen der Anwendung (Taste Q)
 \end{itemize}
