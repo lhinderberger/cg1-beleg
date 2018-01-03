@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+#include <FreeImage.h>
+
 #include "Application.h"
 
 using namespace cg1;
@@ -23,6 +25,8 @@ void idle();
 void init(int argc, char ** args);
 
 int main(int argc, char ** args) {
+    FreeImage_Initialise();
+    
 	try {
 	    init(argc, args);
     	glutMainLoop();
@@ -34,6 +38,8 @@ int main(int argc, char ** args) {
 		cerr << "Exception caught: " << e.what() << endl;
 		return 1;
 	}
+	
+	FreeImage_DeInitialise();
 }
 
 void init(int argc, char ** args) {
