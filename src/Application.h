@@ -55,9 +55,10 @@ namespace cg1 {
 		
 		void generateModels();
 		void initShaders();
-		void recalculateAspectRatio();
 		void setupSunLight();
 		void setupPointLights();
+		
+		void renderImpl(FirstPersonCamera * camera, bool overlay, bool orthogonalMode);
 		
 	public:
 		Application();

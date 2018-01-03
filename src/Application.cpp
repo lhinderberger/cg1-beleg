@@ -147,22 +147,18 @@ void Application::keyboard(unsigned char key, int x, int y) {
     else if (key == '1') {
         currentCamera = &cameraOne;
         orthogonalMode = false;
-        recalculateAspectRatio();
     }
     else if (key == '2') {
         currentCamera = &cameraOne;
         orthogonalMode = true;
-        recalculateAspectRatio();
     }
     else if (key == '3') {
         currentCamera = &cameraTwo;
         orthogonalMode = false;
-        recalculateAspectRatio();
     }
     else if (key == '4') {
         currentCamera = &cameraTwo;
         orthogonalMode = true;
-        recalculateAspectRatio();
     }
     
     glutPostRedisplay();
@@ -197,28 +193,43 @@ void Application::passiveMouseMotion(int x, int y) {
     glutPostRedisplay();
 }
 
-void Application::recalculateAspectRatio() {
-    double aspectRatio = (double)winWidth/winHeight;
-    if (orthogonalMode)
-        projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
-    else
-        projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
-}
-
 void Application::reshape(int width, int height) {
-    glViewport(0, 0, width, height);
     winWidth = width;
     winHeight = height;
-
-    /* Recalculate aspect ratio and projection matrix */
-    recalculateAspectRatio();
 }
 
 void Application::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glViewport(0, 0, winWidth * 0.75, winHeight);
+    renderImpl(currentCamera, displayOverlay, orthogonalMode);
+    
+    
+    glViewport(winWidth * 0.75, winHeight * 0.75, winWidth * 0.25, winHeight * 0.25);
+    renderImpl(&cameraOne, false, false);
+    
+    glViewport(winWidth * 0.75, winHeight * 0.5, winWidth * 0.25, winHeight * 0.25);
+    renderImpl(&cameraOne, false, true);
+    
+    glViewport(winWidth * 0.75, winHeight * 0.25, winWidth * 0.25, winHeight * 0.25);
+    renderImpl(&cameraTwo, false, false);
+    
+    glViewport(winWidth * 0.75, 0, winWidth * 0.25, winHeight * 0.25);
+    renderImpl(&cameraTwo, false, true);
+    
+    glFlush();
+}
+
+void Application::renderImpl(FirstPersonCamera * camera, bool renderOverlay, bool orthogonalMode) {
     // Calculate view and projection matrices
-    glm::mat4 viewMatrix = currentCamera->getViewMatrix();
+    glm::mat4 viewMatrix = camera->getViewMatrix();
+    
+    double aspectRatio = (double)winWidth*0.7/winHeight;
+    if (orthogonalMode)
+        projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
+    else
+        projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
+    
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
     
@@ -235,7 +246,7 @@ void Application::render() {
         model->render();
     
     // Render overlay
-    if (displayOverlay) {
+    if (renderOverlay) {
         glDisable(GL_DEPTH_TEST);
         setLightingEnabled(false);
         glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &mat4(1.0f)[0][0]);
@@ -243,8 +254,6 @@ void Application::render() {
         overlay->render();
         glEnable(GL_DEPTH_TEST);
     }
-
-    glFlush();
 }
 
 void Application::setupPointLights() {
