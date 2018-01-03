@@ -16,7 +16,7 @@ Application::Application() {
 	generateModels();
 	
 	// Configure OpenGL
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0f);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -188,6 +188,7 @@ void Application::setupPointLights() {
     for (const PointLight & l : pointLights) {
         if (i > MAX_POINT_LIGHTS) {
             cerr << "Max Point Lights exceeded!" << endl;
+            i--;
             break;
         }
         
