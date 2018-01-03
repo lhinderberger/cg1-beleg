@@ -94,6 +94,7 @@ void reshape(int width, int height) {
 void render() {
     if (application)
     	application->render();
+    glutSwapBuffers();
 }
 
 void specialKey(int key, int x, int y) {
