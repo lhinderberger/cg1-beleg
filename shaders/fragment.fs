@@ -23,12 +23,16 @@ uniform int nPointLights;
 
 uniform vec3 cameraPosition;
 uniform bool lightingEnabled;
+uniform bool texturingEnabled;
 uniform vec4 objectColor;
+
+uniform sampler2D textureData;
 
 layout(location = 0) out vec4 fColor;
 
 in vec3 fPosition;
 in vec3 fNormal;
+in vec2 fTexCoord;
 
 vec3 directionalPhong(DirectionalLight light, vec3 normal, vec3 viewingDirection) {
     vec3 lightDirection = normalize(-1.0f * light.direction);
@@ -71,4 +75,7 @@ void main() {
     }
     else
 		fColor = objectColor;
+		
+	if (texturingEnabled)
+    	fColor *= texture(textureData, fTexCoord);
 }

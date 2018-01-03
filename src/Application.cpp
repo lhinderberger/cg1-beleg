@@ -6,6 +6,8 @@
 
 #include "Axises.h"
 #include "Billboard.h"
+#include "Dice.h"
+#include "Plane.h"
 
 using namespace cg1;
 using namespace glm;
@@ -33,8 +35,9 @@ void Application::idle() {
         billboard->step();
         lastSecond = elapsedSec;
     }
-    boxRotation = (float)elapsedMs / 1000.0f;
-    spinningBox->modelMatrix = rotate(translate(mat4(1.0f), vec3(1.0f,0.0f,2.0f)), boxRotation, vec3(0,1,0));
+    diceRotation = (float)elapsedMs / 1000.0f;
+    spinningDice->modelMatrix = rotate(translate(mat4(1.0f), vec3(1.0f,1.0f,2.0f)), diceRotation, vec3(0,1,0));
+    spinningDice->modelMatrix = rotate(spinningDice->modelMatrix, diceRotation, vec3(0.5,0.5,0.5));
     glutPostRedisplay();
 }
 
@@ -45,19 +48,18 @@ void Application::generateModels() {
     billboard = new Billboard(this);
     models.emplace_back(billboard);
     
-    Cuboid * ground = new Cuboid(this, 10.0f, 0.01f, 10.0f);
-    ground->setColor(vec4(0.1,0.7,0.1,1.0));
+    Plane * ground = new Plane(this, 10.0f, 10.0f);
     ground->modelMatrix = translate(mat4(1.0f), vec3(-5.0f, 0.0f, -5.0f));
     models.emplace_back(ground);
     
     for (int i = 0; i < 10; i++) {
-	    Cuboid * testBox = new Cuboid(this, 0.3f,0.3f,0.3f);
-	    testBox->modelMatrix = translate(mat4(1.0f), vec3((float)i*0.4f,0,0.4f));
-	    models.emplace_back(testBox);
+	    Dice * testDice = new Dice(this, 0.3f);
+	    testDice->modelMatrix = translate(mat4(1.0f), vec3((float)i*0.4f,0,0.4f));
+	    models.emplace_back(testDice);
     }
     
-    spinningBox = new Cuboid(this, 0.3f,0.3f,0.3f);
-    models.emplace_back(spinningBox);
+    spinningDice = new Dice(this, 0.3f);
+    models.emplace_back(spinningDice);
 }
 
 void Application::initShaders() {
@@ -90,6 +92,7 @@ void Application::initShaders() {
     sunDiffuseLocation = glGetUniformLocation(id, "sun.diffuse");
     sunSpecularLocation = glGetUniformLocation(id, "sun.specular");
     nPointLightsLocation = glGetUniformLocation(id, "nPointLights");
+    texturingEnabledLocation = glGetUniformLocation(id, "texturingEnabled");
 }
 
 void Application::setLightingEnabled(bool lightingEnabled) {
@@ -112,6 +115,11 @@ void Application::setRenderMode(RenderMode mode) {
     renderMode = mode;
     glPolygonMode(GL_FRONT_AND_BACK, (renderMode == WIREFRAME) ? GL_LINE : GL_FILL);
     glutPostRedisplay();
+}
+
+void Application::setTexturingEnabled(bool texturingEnabled) {
+	this->texturingEnabled = texturingEnabled;
+	glUniform1i(texturingEnabledLocation, texturingEnabled ? GL_TRUE : GL_FALSE);
 }
 
 

@@ -17,17 +17,18 @@
 
 namespace cg1 {
     class Billboard;
-    class Cuboid;
+    class Dice;
 	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
 	
 	class Application {
 	private:
 	    int lastSecond = 0;
-    	float boxRotation = 0.0f;
+    	float diceRotation = 0.0f;
     	Billboard * billboard;
-        Cuboid * spinningBox;
+        Dice * spinningDice;
 	
 		bool lightingEnabled = false;
+		bool texturingEnabled = false;
 		int winWidth = 800, winHeight = 600;
 		int lastMouseX = -1, lastMouseY = -1;
 
@@ -44,7 +45,8 @@ namespace cg1 {
 		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation,
 		cameraPositionLocation, materialAmbientLocation, materialDiffuseLocation,
 		materialSpecularLocation, materialShininessLocation, sunDirectionLocation,
-		sunAmbientLocation, sunDiffuseLocation, sunSpecularLocation, nPointLightsLocation;
+		sunAmbientLocation, sunDiffuseLocation, sunSpecularLocation, nPointLightsLocation,
+		texturingEnabledLocation;
 		
 		void generateModels();
 		void initShaders();
@@ -61,6 +63,7 @@ namespace cg1 {
 		inline GLuint getProjectionMatrixLocation() const { return projectionMatrixLocation; }
 		
 		void setLightingEnabled(bool lightingEnabled);
+		void setTexturingEnabled(bool texturingEnabled);
 		void setMaterial(const Material & material);
 		void setObjectColor(const glm::vec4 & color);
 		void setRenderMode(RenderMode mode);
@@ -74,9 +77,5 @@ namespace cg1 {
 		void specialKey(int key, int x, int y);
 	};
 }
-
-
-#include "Billboard.h"
-#include "Cuboid.h"
 
 #endif
