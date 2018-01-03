@@ -116,12 +116,13 @@ void Application::setObjectColor(const vec4 & color) {
 void Application::setRenderMode(RenderMode mode) {
     renderMode = mode;
     glPolygonMode(GL_FRONT_AND_BACK, (renderMode == WIREFRAME) ? GL_LINE : GL_FILL);
+    setTexturingEnabled(texturingEnabled);
     glutPostRedisplay();
 }
 
 void Application::setTexturingEnabled(bool texturingEnabled) {
 	this->texturingEnabled = texturingEnabled;
-	glUniform1i(texturingEnabledLocation, texturingEnabled ? GL_TRUE : GL_FALSE);
+	glUniform1i(texturingEnabledLocation, texturingEnabled && renderMode == TEXTURED ? GL_TRUE : GL_FALSE);
 }
 
 

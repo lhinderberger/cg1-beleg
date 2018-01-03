@@ -32,7 +32,7 @@ namespace cg1 {
 		int winWidth = 800, winHeight = 600;
 		int lastMouseX = -1, lastMouseY = -1;
 
-		RenderMode renderMode = WIREFRAME;
+		RenderMode renderMode = TEXTURED;
 		
 		InteractiveFirstPersonCamera camera;
 		
