@@ -12,14 +12,14 @@ class cg1::Bulb : public Cylinder {
 private:
     vec3 position;
 public:
-    Bulb(Application * application, const vec3 & position)
-    : position(position), Cylinder(application, 0.025, 0.05, 64) {
+    Bulb(Application * application, const vec3 & position, bool active = true)
+    : position(position), Cylinder(application, 0.025, 0.05, 16) {
         material.ambient = vec3(0.5);
         material.diffuse = vec3(0.3);
         material.specular = vec3(1.0);
         material.shininess = 64;
         
-        setColor(vec4(1.0f,0.0f,0.0f,0.5f));
+        setColor(active ? vec4(1.0f,0.0f,0.0f,0.5f) : vec4(0.1f,0.1f,0.1f,0.5f));
         modelMatrix = translate(mat4(1.0f), position);
         modelMatrix = rotate(modelMatrix, radians(90.0f), vec3(1,0,0));
     }
@@ -28,8 +28,9 @@ public:
 };
 
 Billboard::Billboard(Application * application) : Model(application) {
-    static const int nRows = 9;
+    static const int nRows = 11;
     static const unsigned char pattern[nRows][nCharacters] = {
+        {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
         {0b00111100, 0b00000000, 0b00000000, 0b00000000, 0b00111110, 0b10000000},
         {0b01000010, 0b00000000, 0b00000000, 0b00000000, 0b01000001, 0b10000000},
         {0b10000001, 0b00000000, 0b00000000, 0b00000000, 0b10000000, 0b10000000},
@@ -38,7 +39,8 @@ Billboard::Billboard(Application * application) : Model(application) {
         {0b01000010, 0b01000010, 0b01110000, 0b00100100, 0b10000001, 0b10000000},
         {0b00111100, 0b01111100, 0b00111000, 0b00100100, 0b01111110, 0b11111100},
         {0b00000000, 0b01000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
-        {0b00000000, 0b01000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000}
+        {0b00000000, 0b01000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
+        {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000}
     };
     
     // Assemble Character Bulbs
@@ -48,9 +50,12 @@ Billboard::Billboard(Application * application) : Model(application) {
     for (int row = 0; row < nRows; row++) {
         for (int c = 0; c < nCharacters; c++) {
             for (int col = 0; col < 8; col++) {
+                vec3 position(c*8*0.1 + col * 0.075, 0.2f+(nRows-row) * 0.1, 0);
                 if (pattern[row][c] & (0b10000000>>col)) {
-                    vec3 position(c*8*0.1 + col * 0.075, 0.2f+(nRows-row) * 0.1, 0);
                     characterBulbs[c].emplace_back(new Bulb(getApplication(), position));
+                }
+                else {
+                    passiveBulbs.emplace_back(new Bulb(getApplication(), position, false));
                 }
             }
         }
@@ -102,6 +107,10 @@ void Billboard::render(glm::mat4 parentModelMatrix) {
     // Render backplane
     for (unique_ptr<Cuboid> & cuboid : backplane)
         cuboid->render(modelMatrix);
+    
+    // Render passive bulbs
+    for (unique_ptr<Bulb> & bulb : passiveBulbs)
+        bulb->render(modelMatrix);
     
     // Render inactive bulbs
     for (int c = 0; c < nCharacters; c++) {
