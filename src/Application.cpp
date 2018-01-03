@@ -25,7 +25,10 @@ Application::Application() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	// Configure camera
-    camera.setPosition(vec3(0.0f,1.0f,5.0f));
+    cameraOne.setPosition(vec3(0.0f,1.0f,5.0f));
+    cameraTwo.setPosition(vec3(-3.0f,1.0f,-3.0f));
+    cameraTwo.setYaw(radians(150.0f));
+    currentCamera = &cameraOne;
 }
 
 
@@ -132,7 +135,7 @@ void Application::setTexturingEnabled(bool texturingEnabled) {
 
 
 void Application::keyboard(unsigned char key, int x, int y) {
-    camera.processKey(key);
+    currentCamera->processKey(key);
     if (key == 'q')
         exit(0);
     else if (key == 'm')
@@ -141,6 +144,27 @@ void Application::keyboard(unsigned char key, int x, int y) {
         billboard->cyclePattern();
     else if (key == 'o')
         displayOverlay = !displayOverlay;
+    else if (key == '1') {
+        currentCamera = &cameraOne;
+        orthogonalMode = false;
+        recalculateAspectRatio();
+    }
+    else if (key == '2') {
+        currentCamera = &cameraOne;
+        orthogonalMode = true;
+        recalculateAspectRatio();
+    }
+    else if (key == '3') {
+        currentCamera = &cameraTwo;
+        orthogonalMode = false;
+        recalculateAspectRatio();
+    }
+    else if (key == '4') {
+        currentCamera = &cameraTwo;
+        orthogonalMode = true;
+        recalculateAspectRatio();
+    }
+    
     glutPostRedisplay();
 }
 
@@ -154,7 +178,7 @@ void Application::passiveMouseMotion(int x, int y) {
     /* Ignore first movement, ignore large movements (we assume they're warps) */
     if (lastMouseX != -1 && abs(relativeX) <= 100 && abs(relativeY) <= 100) {
         /* Adjust camera direction */
-        camera.processRelativeMouseMotion(winRelativeX, winRelativeY);
+        currentCamera->processRelativeMouseMotion(winRelativeX, winRelativeY);
 
         /* Warp mouse to the opposite edge of window, if at edge */
         int newX = x;
@@ -173,27 +197,33 @@ void Application::passiveMouseMotion(int x, int y) {
     glutPostRedisplay();
 }
 
+void Application::recalculateAspectRatio() {
+    double aspectRatio = (double)winWidth/winHeight;
+    if (orthogonalMode)
+        projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
+    else
+        projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
+}
+
 void Application::reshape(int width, int height) {
     glViewport(0, 0, width, height);
     winWidth = width;
     winHeight = height;
 
     /* Recalculate aspect ratio and projection matrix */
-    double aspectRatio = (double)width/height;
-    //projectionMatrix = ortho(-1.0 * aspectRatio, aspectRatio, -1.0, 1.0, 0.01, 100.0);
-    projectionMatrix = perspective(0.6, aspectRatio, 0.01, 100.0);
+    recalculateAspectRatio();
 }
 
 void Application::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Calculate view and projection matrices
-    glm::mat4 viewMatrix = camera.getViewMatrix();
+    glm::mat4 viewMatrix = currentCamera->getViewMatrix();
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
     
     // Setup uniforms
-    glUniform3fv(cameraPositionLocation, 1, (const float*)&camera.getPosition());
+    glUniform3fv(cameraPositionLocation, 1, (const float*)&currentCamera->getPosition());
 	setLightingEnabled(true);
 	
 	// Setup lights
@@ -261,7 +291,7 @@ void Application::setupSunLight() {
 }
 
 void Application::specialKey(int key, int x, int y) {
-    camera.processSpecialKey(key);
+    currentCamera->processSpecialKey(key);
     glutPostRedisplay();
 }
 

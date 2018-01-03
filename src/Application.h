@@ -32,12 +32,14 @@ namespace cg1 {
 	    bool displayOverlay = true;
 		bool lightingEnabled = false;
 		bool texturingEnabled = false;
+		bool orthogonalMode = false;
 		int winWidth = 800, winHeight = 600;
 		int lastMouseX = -1, lastMouseY = -1;
 
 		RenderMode renderMode = TEXTURED;
 		
-		InteractiveFirstPersonCamera camera;
+		InteractiveFirstPersonCamera cameraOne, cameraTwo;
+		InteractiveFirstPersonCamera * currentCamera = nullptr;
 		
 		std::list<std::unique_ptr<Model>> models;
 		
@@ -53,6 +55,7 @@ namespace cg1 {
 		
 		void generateModels();
 		void initShaders();
+		void recalculateAspectRatio();
 		void setupSunLight();
 		void setupPointLights();
 		
