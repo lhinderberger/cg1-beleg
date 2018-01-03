@@ -68,8 +68,10 @@ void main() {
 	    vec3 calculatedColor = directionalPhong(sun, normal, viewingDirection);
 	    
 	    // Point Lights
-        for (int i = 0; i < nPointLights; i++)
+	    if (fPosition.z >= 0) { // Ein kleiner Trick um die Leuchtreklame nicht nach hinten leuchten zu lassen
+            for (int i = 0; i < nPointLights; i++)
 	        calculatedColor += pointPhong(pointLights[i], normal, viewingDirection);
+        }
         
 	    fColor = vec4(calculatedColor * objectColor.rgb, objectColor.a);
     }

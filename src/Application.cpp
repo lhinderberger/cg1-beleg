@@ -43,10 +43,7 @@ void Application::idle() {
 
 void Application::generateModels() {
 	models.clear();
-    models.emplace_back(new Axises(this));
-    
-    billboard = new Billboard(this);
-    models.emplace_back(billboard);
+    //models.emplace_back(new Axises(this));
     
     Plane * ground = new Plane(this, 10.0f, 10.0f);
     ground->modelMatrix = translate(mat4(1.0f), vec3(-5.0f, 0.0f, -5.0f));
@@ -54,12 +51,17 @@ void Application::generateModels() {
     
     for (int i = 0; i < 10; i++) {
 	    Dice * testDice = new Dice(this, 0.3f);
-	    testDice->modelMatrix = translate(mat4(1.0f), vec3((float)i*0.4f,0,0.4f));
+	    // This has the effect of pseudo-randomly scattering the dices around the scene
+	    testDice->modelMatrix = rotate(mat4(1.0f), radians(80.0f) * i, vec3(0,1,0));
+	    testDice->modelMatrix = translate(testDice->modelMatrix, vec3((float)i*0.4f,0,0.4f));
 	    models.emplace_back(testDice);
     }
     
     spinningDice = new Dice(this, 0.3f);
     models.emplace_back(spinningDice);
+    
+    billboard = new Billboard(this);
+    models.emplace_back(billboard);
 }
 
 void Application::initShaders() {

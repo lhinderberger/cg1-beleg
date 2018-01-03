@@ -63,7 +63,7 @@ Billboard::Billboard(Application * application) : Model(application) {
     
     // Assemble Backplane
     Cuboid * bpCuboid = new Cuboid(getApplication(), nCharacters * 0.81f, nRows * 0.15f, 0.05f);
-    bpCuboid->modelMatrix = translate(mat4(1.0f), vec3(-0.2f,0.05f, -0.05f));
+    bpCuboid->modelMatrix = translate(mat4(1.0f), vec3(-0.2f,0.0f, -0.05f));
     bpCuboid->setColor(vec4(0.1f,0.1f,0.1f,1.0f));
     backplane.emplace_back(bpCuboid);
     
