@@ -26,9 +26,9 @@ Billboard::Billboard(Application * application) : Model(application) {
     characterBulbs.resize(nCharacters);
     
     Material bulbMaterial;
-    bulbMaterial.ambient = vec3(0.05);
+    bulbMaterial.ambient = vec3(0.5);
     bulbMaterial.diffuse = vec3(0.3);
-    bulbMaterial.specular = vec3(0.5);
+    bulbMaterial.specular = vec3(1.0);
     bulbMaterial.shininess = 64;
     
     for (int row = 0; row < nRows; row++) {

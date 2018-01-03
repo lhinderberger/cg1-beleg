@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 
 #include "InteractiveFirstPersonCamera.h"
+#include "Light.h"
 #include "Material.h"
 #include "Model.h"
 #include "ShaderProgram.h"
@@ -29,10 +30,12 @@ namespace cg1 {
 		
 		std::unique_ptr<ShaderProgram> shaderProgram;
 		glm::mat4 projectionMatrix;
+		DirectionalLight sun;
 		GLuint modelMatrixLocation, normalMatrixLocation, viewMatrixLocation,
 		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation,
 		cameraPositionLocation, materialAmbientLocation, materialDiffuseLocation,
-		materialSpecularLocation, materialShininessLocation;
+		materialSpecularLocation, materialShininessLocation, sunDirectionLocation,
+		sunAmbientLocation, sunDiffuseLocation, sunSpecularLocation;
 		
 		void generateModels();
 		void initShaders();

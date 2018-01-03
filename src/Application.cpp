@@ -69,6 +69,10 @@ void Application::initShaders() {
     materialDiffuseLocation = glGetUniformLocation(id, "material.diffuse");
     materialSpecularLocation = glGetUniformLocation(id, "material.specular");
     materialShininessLocation = glGetUniformLocation(id, "material.shininess");
+    sunDirectionLocation = glGetUniformLocation(id, "sun.direction");
+    sunAmbientLocation = glGetUniformLocation(id, "sun.ambient");
+    sunDiffuseLocation = glGetUniformLocation(id, "sun.diffuse");
+    sunSpecularLocation = glGetUniformLocation(id, "sun.specular");
 }
 
 void Application::setLightingEnabled(bool lightingEnabled) {
@@ -156,6 +160,10 @@ void Application::render() {
     
     // Setup uniforms
     glUniform3fv(cameraPositionLocation, 1, (const float*)&camera.getPosition());
+    glUniform3fv(sunDirectionLocation, 1, (const float*)&sun.direction);
+    glUniform3fv(sunAmbientLocation, 1, (const float*)&sun.ambient);
+    glUniform3fv(sunDiffuseLocation, 1, (const float*)&sun.diffuse);
+    glUniform3fv(sunSpecularLocation, 1, (const float*)&sun.specular);
 	setLightingEnabled(true);
 	
 	// Render each model
