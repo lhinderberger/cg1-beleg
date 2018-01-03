@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 
 #include "InteractiveFirstPersonCamera.h"
+#include "Material.h"
 #include "Model.h"
 #include "ShaderProgram.h"
 
@@ -30,7 +31,8 @@ namespace cg1 {
 		glm::mat4 projectionMatrix;
 		GLuint modelMatrixLocation, normalMatrixLocation, viewMatrixLocation,
 		projectionMatrixLocation, objectColorLocation, lightingEnabledLocation,
-		cameraPositionLocation;
+		cameraPositionLocation, materialAmbientLocation, materialDiffuseLocation,
+		materialSpecularLocation, materialShininessLocation;
 		
 		void generateModels();
 		void initShaders();
@@ -45,6 +47,7 @@ namespace cg1 {
 		inline GLuint getProjectionMatrixLocation() const { return projectionMatrixLocation; }
 		
 		void setLightingEnabled(bool lightingEnabled);
+		void setMaterial(const Material & material);
 		void setObjectColor(const glm::vec4 & color);
 		void setRenderMode(RenderMode mode);
 		

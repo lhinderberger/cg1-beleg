@@ -40,7 +40,7 @@ Billboard::Billboard(Application * application) : Model(application) {
     }
     
     //Debug
-    //activeCharacters[0] = true;
+    activeCharacters[0] = true;
 }
 
 

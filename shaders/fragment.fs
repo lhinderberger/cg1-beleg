@@ -1,5 +1,12 @@
 #version 400 core
 
+struct Material {
+    vec3 ambient, diffuse, specular;
+    float shininess;
+};
+
+uniform Material material;
+
 uniform vec3 cameraPosition;
 uniform bool lightingEnabled;
 uniform vec4 objectColor;
@@ -20,14 +27,9 @@ void main() {
 	    vec3 viewingDirection = normalize(cameraPosition - fPosition);
 	    vec3 reflectionDirection = reflect(-1.0 * lightDirection, normal);
 	    
-	    float ambientStrength = 0.1;
-	    float diffuseStrength = 1.0;
-	    float specularShininess = 32;
-	    float specularStrength = 0.5;
-	    
-	    vec3 ambient = ambientStrength * lightColor;
-	    vec3 diffuse = diffuseStrength * max(dot(normal, lightDirection), 0.0) * lightColor;
-	    vec3 specular = specularStrength * pow(max(dot(viewingDirection, reflectionDirection), 0.0), specularShininess) * lightColor;
+	    vec3 ambient = material.ambient * lightColor;
+	    vec3 diffuse = material.diffuse * max(dot(normal, lightDirection), 0.0) * lightColor;
+	    vec3 specular = material.specular * pow(max(dot(viewingDirection, reflectionDirection), 0.0), material.shininess) * lightColor;
 	    
 	    fColor = vec4((ambient + diffuse + specular) * objectColor.rgb, objectColor.a);
     }

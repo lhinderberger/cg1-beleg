@@ -65,11 +65,22 @@ void Application::initShaders() {
     cameraPositionLocation = glGetUniformLocation(id, "cameraPosition");
     lightingEnabledLocation = glGetUniformLocation(id, "lightingEnabled");
     objectColorLocation = glGetUniformLocation(id, "objectColor");
+    materialAmbientLocation = glGetUniformLocation(id, "material.ambient");
+    materialDiffuseLocation = glGetUniformLocation(id, "material.diffuse");
+    materialSpecularLocation = glGetUniformLocation(id, "material.specular");
+    materialShininessLocation = glGetUniformLocation(id, "material.shininess");
 }
 
 void Application::setLightingEnabled(bool lightingEnabled) {
 	this->lightingEnabled = lightingEnabled;
 	glUniform1i(lightingEnabledLocation, lightingEnabled ? GL_TRUE : GL_FALSE);
+}
+
+void Application::setMaterial(const Material & material) {
+    glUniform3fv(materialAmbientLocation, 1, (const GLfloat*)&(material.ambient));
+    glUniform3fv(materialDiffuseLocation, 1, (const GLfloat*)&(material.diffuse));
+    glUniform3fv(materialSpecularLocation, 1, (const GLfloat*)&(material.specular));
+    glUniform1f(materialShininessLocation, material.shininess);
 }
 
 void Application::setObjectColor(const vec4 & color) {

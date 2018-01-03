@@ -12,6 +12,8 @@ namespace cg1 {
         std::unique_ptr<VAO> vao;
     
     public:
+        Material material;
+        
         Cuboid(Application * application, float width, float height, float depth);
         
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;

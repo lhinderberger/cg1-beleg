@@ -14,6 +14,8 @@ namespace cg1 {
         int subdivisions;
 
     public:
+        Material material;
+        
         Cylinder(Application * application, float radius, float height, int subdivisions);
 
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;

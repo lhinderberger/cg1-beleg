@@ -71,7 +71,8 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
 }
 
 void Cylinder::render(glm::mat4 parentModelMatrix) {    
-    // Set color
+    // Set material and color
+    getApplication()->setMaterial(material);
     getApplication()->setObjectColor(getColor());
     
     // === Render Caps
