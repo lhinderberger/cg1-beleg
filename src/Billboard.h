@@ -16,7 +16,6 @@ namespace cg1 {
         GLuint modelMatrixLocation;
         std::vector<std::unique_ptr<Cuboid>> backplane;
         std::vector<std::vector<std::unique_ptr<Bulb>>> characterBulbs;
-        std::vector<std::unique_ptr<Bulb>> passiveBulbs;
         std::vector<bool> activeCharacters;
         
     public:

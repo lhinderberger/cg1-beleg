@@ -18,7 +18,7 @@ struct Material {
 
 uniform DirectionalLight sun;
 uniform Material material;
-uniform PointLight pointLights[128];
+uniform PointLight pointLights[64];
 uniform int nPointLights;
 
 uniform vec3 cameraPosition;

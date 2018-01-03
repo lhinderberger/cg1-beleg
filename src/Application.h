@@ -13,7 +13,7 @@
 #include "Model.h"
 #include "ShaderProgram.h"
 
-#define MAX_POINT_LIGHTS 128 // If needed, change in fragment shader as well
+#define MAX_POINT_LIGHTS 64 // If needed, change in fragment shader as well
 
 namespace cg1 {
 	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
