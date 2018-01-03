@@ -16,12 +16,15 @@
 #define MAX_POINT_LIGHTS 100 // If needed, change in fragment shader as well
 
 namespace cg1 {
+    class Billboard;
     class Cuboid;
 	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
 	
 	class Application {
 	private:
+	    int lastSecond = 0;
     	float boxRotation = 0.0f;
+    	Billboard * billboard;
         Cuboid * spinningBox;
 	
 		bool lightingEnabled = false;
@@ -73,6 +76,7 @@ namespace cg1 {
 }
 
 
+#include "Billboard.h"
 #include "Cuboid.h"
 
 #endif

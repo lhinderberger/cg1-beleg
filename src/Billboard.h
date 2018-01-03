@@ -13,6 +13,9 @@ namespace cg1 {
     
     class Billboard : public Model {
     private:
+        int animationStep = 0;
+        int pattern = 0;
+        
         GLuint modelMatrixLocation;
         std::vector<std::unique_ptr<Cuboid>> backplane;
         std::vector<std::vector<std::unique_ptr<Bulb>>> characterBulbs;
@@ -21,6 +24,9 @@ namespace cg1 {
         
     public:
         Billboard(Application * application);
+        
+        void step();
+        void cyclePattern();
         
         virtual std::list<PointLight> getPointLights() override;
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) override;

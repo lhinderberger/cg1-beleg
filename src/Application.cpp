@@ -28,6 +28,11 @@ Application::Application() {
 
 void Application::idle() {
     int elapsedMs = glutGet(GLUT_ELAPSED_TIME);
+    int elapsedSec = elapsedMs / 1000;
+    if (elapsedSec > lastSecond) {
+        billboard->step();
+        lastSecond = elapsedSec;
+    }
     boxRotation = (float)elapsedMs / 1000.0f;
     spinningBox->modelMatrix = rotate(translate(mat4(1.0f), vec3(1.0f,0.0f,2.0f)), boxRotation, vec3(0,1,0));
     glutPostRedisplay();
@@ -37,8 +42,8 @@ void Application::generateModels() {
 	models.clear();
     models.emplace_back(new Axises(this));
     
-    Billboard * b = new Billboard(this);
-    models.emplace_back(b);
+    billboard = new Billboard(this);
+    models.emplace_back(billboard);
     
     Cuboid * ground = new Cuboid(this, 10.0f, 0.01f, 10.0f);
     ground->setColor(vec4(0.1,0.7,0.1,1.0));
@@ -116,8 +121,10 @@ void Application::keyboard(unsigned char key, int x, int y) {
     camera.processKey(key);
     if (key == 'q')
         exit(0);
-    if (key == 'm')
+    else if (key == 'm')
         setRenderMode((RenderMode)((renderMode + 1) % 3));
+    else if (key == 'b')
+        billboard->cyclePattern();
     glutPostRedisplay();
 }
 

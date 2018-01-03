@@ -67,13 +67,8 @@ Billboard::Billboard(Application * application) : Model(application) {
     bpCuboid->setColor(vec4(0.1f,0.1f,0.1f,1.0f));
     backplane.emplace_back(bpCuboid);
     
-    //Debug
+    // Switch on first bulb
     activeCharacters[0] = true;
-    activeCharacters[1] = true;
-    activeCharacters[2] = true;
-    activeCharacters[3] = true;
-    activeCharacters[4] = true;
-    activeCharacters[5] = true;
 }
 
 
@@ -130,4 +125,39 @@ void Billboard::render(glm::mat4 parentModelMatrix) {
         }
     }
     application->setLightingEnabled(lightingEnabled);
+}
+
+void Billboard::cyclePattern() {
+    pattern = (pattern + 1) % 4;
+    animationStep = -1;
+    step();
+}
+
+void Billboard::step() {
+    animationStep++;
+    
+    if (pattern == 0) {
+        animationStep = animationStep % nCharacters;
+        
+        // Cycle through active characters
+        for (int i = 0; i < nCharacters; i++)
+            activeCharacters[i] = animationStep == i;
+    }
+    else if (pattern == 1) {
+        animationStep = animationStep % 2;
+    
+        for (int i = 0; i < 4; i++)
+            activeCharacters[i] = (animationStep % 2 == 0);
+        for (int i = 4; i < nCharacters; i++)
+            activeCharacters[i] = (animationStep % 2 == 1);
+    }
+    else if (pattern == 2) {
+        animationStep = animationStep % 2;
+        for (int i = 0; i < nCharacters; i++)
+            activeCharacters[i] = (animationStep % 2 == 0);
+    }
+    else if (pattern == 3) {
+        for (int i = 0; i < nCharacters; i++)
+            activeCharacters[i] = true;
+    }
 }
