@@ -16,10 +16,14 @@
 #define MAX_POINT_LIGHTS 100 // If needed, change in fragment shader as well
 
 namespace cg1 {
+    class Cuboid;
 	typedef enum e_RenderMode { WIREFRAME = 0, SOLID = 1, TEXTURED = 2 } RenderMode;
 	
 	class Application {
 	private:
+    	float boxRotation = 0.0f;
+        Cuboid * spinningBox;
+	
 		bool lightingEnabled = false;
 		int winWidth = 800, winHeight = 600;
 		int lastMouseX = -1, lastMouseY = -1;
@@ -64,7 +68,11 @@ namespace cg1 {
 		void render();
 		void reshape(int width, int height);
 		void specialKey(int key, int x, int y);
+		void animationTimer();
 	};
 }
+
+
+#include "Cuboid.h"
 
 #endif

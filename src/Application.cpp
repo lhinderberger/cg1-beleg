@@ -26,6 +26,12 @@ Application::Application() {
 }
 
 
+void Application::animationTimer() {
+    boxRotation += 0.05;
+    spinningBox->modelMatrix = rotate(translate(mat4(1.0f), vec3(1.0f,0.0f,2.0f)), boxRotation, vec3(0,1,0));
+    render();
+}
+
 void Application::generateModels() {
 	models.clear();
     models.emplace_back(new Axises(this));
@@ -43,6 +49,9 @@ void Application::generateModels() {
 	    testBox->modelMatrix = translate(mat4(1.0f), vec3((float)i*0.4f,0,0.4f));
 	    models.emplace_back(testBox);
     }
+    
+    spinningBox = new Cuboid(this, 0.3f,0.3f,0.3f);
+    models.emplace_back(spinningBox);
 }
 
 void Application::initShaders() {
