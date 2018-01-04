@@ -13,8 +13,8 @@ static Texture * texture = nullptr;
 
 Overlay::Overlay(Application * application)
 	: Model(application) {
-	float width = 0.5f;
-	float height = 1.0f;
+	float width = 2.0f;
+	float height = 2.0f;
     float vertices[] = {
     	// Position			    // Normal   // Texture Coordinates
         0,0,0,                  0,0,1,     0,0,
