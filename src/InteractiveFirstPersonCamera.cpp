@@ -10,7 +10,17 @@ using namespace cg1;
 using namespace glm;
 
 void InteractiveFirstPersonCamera::processKey(unsigned char key) {
-    //Do nothing
+    float speed = 0.05f;
+    
+    if (key == 'w')
+        moveInYawDirection(vec3(0.0f, 0.0f, -1.0f * speed));
+    else if (key == 's')
+        moveInYawDirection(vec3(0.0f, 0.0f, speed));
+    else if (key == 'a')
+        moveInYawDirection(vec3(-1.0f * speed, 0.0f, 0.0f));
+    else if (key == 'd')
+        moveInYawDirection(vec3(speed, 0.0f, 0.0f));
+
 }
 
 void InteractiveFirstPersonCamera::processRelativeMouseMotion(float x, float y) {
