@@ -15,19 +15,22 @@ using namespace glm;
 using namespace std;
 
 Application::Application() {
-	initShaders();
-	generateModels();
-	
-	// Configure OpenGL
+    initShaders();
+    generateModels();
+
+    // Configure OpenGL
     glClearColor(0.0, 0.0, 0.0, 1.0f);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	// Configure camera
-    cameraOne.setPosition(vec3(0.0f,1.0f,5.0f));
-    cameraTwo.setPosition(vec3(-3.0f,1.0f,-3.0f));
-    cameraTwo.setYaw(radians(150.0f));
+
+    // Configure camera
+    cameraOne.setPosition(vec3(-3.0f,1.0f,7.0f));
+    cameraOne.setPitch(radians(3.0f));
+    cameraOne.setYaw(radians(30.0f));
+    cameraTwo.setPosition(vec3(-4.0f,1.0f,-2.0f));
+    cameraTwo.setPitch(radians(3.0f));
+    cameraTwo.setYaw(radians(130.0f));
     currentCamera = &cameraOne;
 }
 

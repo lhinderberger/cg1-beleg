@@ -48,9 +48,9 @@ void init(int argc, char ** args) {
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
 	glutInitContextVersion(4,0);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(1000, 600);
     glutCreateWindow("Beleg Computergrafik 1 - Lucas Hinderberger (s75887)");
-    //glutSetCursor(GLUT_CURSOR_NONE);
+    glutSetCursor(GLUT_CURSOR_NONE);
 
     // Print system information
     cout << "System information:" << endl << endl;
