@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 #include "Light.h"
@@ -23,7 +23,7 @@ namespace cg1 {
         virtual std::list<PointLight> getPointLights();
         virtual void render(glm::mat4 parentModelMatrix = glm::mat4()) = 0;
 
-        glm::vec4 setColor(const glm::vec4 & color);
+        void setColor(const glm::vec4 & color);
         void setModelAndNormalMatrixUniform(glm::mat4 processedModelMatrix);
 
 		inline Application * getApplication() const { return application; }

@@ -4,7 +4,7 @@
 #include <istream>
 #include <string>
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 /**
  * This macro is the quick and easy way to define a new AbstractShader subtype

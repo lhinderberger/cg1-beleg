@@ -1,6 +1,6 @@
 #include "GLException.h"
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 using namespace cg1;
 using namespace std;

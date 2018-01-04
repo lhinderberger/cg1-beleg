@@ -16,7 +16,7 @@ list<PointLight> Model::getPointLights() {
     return list<PointLight>();
 }
 
-vec4 Model::setColor(const vec4 & color) {
+void Model::setColor(const vec4 & color) {
     this->color = color;
 }
 

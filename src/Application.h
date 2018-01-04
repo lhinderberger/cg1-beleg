@@ -4,7 +4,7 @@
 #include <list>
 #include <memory>
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 #include "InteractiveFirstPersonCamera.h"

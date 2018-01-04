@@ -1,7 +1,7 @@
 #ifndef CG1_TEXTURE_H
 #define CG1_TEXTURE_H
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 namespace cg1 {
     class Texture {
