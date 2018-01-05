@@ -4,6 +4,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <vector>
 
 #define PI 3.1415
 
@@ -20,9 +21,9 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
 	
 	// Create vertices and normals for Cap and Side
 	int nCapVertices = subdivisions * 6*3; // One triangle per subdivision
-	float capVertices[nCapVertices];
+	float * capVertices = new float[nCapVertices];
 	int nSideVertices = subdivisions * 6*6; // Two triangles per subdivision
-	float sideVertices[nSideVertices];
+	float * sideVertices = new float[nSideVertices];
 	for (int i = 0; i < subdivisions; i++) {
         float angleRadians = (float)i/(float)subdivisions * 2 * PI;
         float nextAngleRadians = (float)(i+1)/(float)subdivisions * 2 * PI;
@@ -68,6 +69,10 @@ Cylinder::Cylinder(Application * application, float radius, float height, int su
 	sideVAO = VAO::create(sideVertices, nSideVertices);
 	sideVAO->setupAttribPointer(0,3,6);
     sideVAO->setupAttribPointer(1,3,6,3);
+
+	// Delete arrays
+	delete[] capVertices;
+	delete[] sideVertices;
 }
 
 void Cylinder::render(glm::mat4 parentModelMatrix) {    

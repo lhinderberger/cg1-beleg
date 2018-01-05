@@ -6,3 +6,8 @@ cmake_install.cmake
 bin/
 lib/
 cg1-beleg
+build/
+
+# Idiotic Visual Studio still creates build files out of build tree...
+Win32/
+cg1-beleg.dir/

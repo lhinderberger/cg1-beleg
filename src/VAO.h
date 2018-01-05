@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 namespace cg1 {
