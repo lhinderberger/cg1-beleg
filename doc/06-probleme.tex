@@ -1,1 +1,96 @@
+\section{Probleme}
+\subsection{Performance Punktlichtquellen}
+Es wurde ersichtlich, dass mit zunehmender Zahl an 
+Punktlichtquellen wenig überraschend die Leistung der Anwendung rapide abnimmt.
 
+Dies wurde anfangs dadurch zugespitzt, dass bei jeder Mausbewegung und bei jedem 
+Tastendruck die render()-Funktion aufgerufen wurde. Dies wurde mittlerweile behoben 
+(jetzt wird via glutPostRedisplay() der Rendervorgang asynchron angestoßen).
+
+Deutlich wird das Problem noch immer durch geringfügiges Ruckeln, falls alle Lichter 
+der Leuchtreklame aktiv sind.
+
+In einer praktischen Anwendung könnte man, sofern die Ausführung in Echtzeit wichtiger 
+ist als die (näherungsweise) akkurate Simulation, die vielen ähnlichen 
+Punktlichtquellen der Leuchtreklame zusammenfassen und z.B. pro Buchstabe nur eine 
+Lichtquelle verwenden.
+
+\subsection{Licht strahlt durch Oberflächen hindurch}
+Da keine Schattenberechnung implementiert wurde, strahlten insbesondere die 
+Punktlichtquellen der Leuchtreklame auch auf deren Rückseite durch.
+
+Als Lösungsmethode habe ich in Erwägung gezogen, die Leuchtreklame halbtransparent zu 
+machen, was jedoch wiederum ein sortiertes Rendern erfordert hätte, da halbtransparente 
+Objekte durch den Tiefenpuffer nicht korrekt gerendet werden können.
+
+Letztenendes habe ich mir beholfen, indem ich im Fragment-Shader eine Grenze im Raum 
+eingebaut habe, bis zu welcher die Punktlichter berechnet werden sollen. Dies ist 
+natürlich sehr unflexibel und würde in einer praktischen Anwendung sicherlich durch 
+eine korrekte Schattenberechnung ersetzt werden. Dies war jedoch nicht Teil der 
+Aufgabenstellung und hätte einen erheblichen Aufwand nach sich gezogen.
+
+\subsection{Microsoft Windows}
+Als größtes Problem in der Entwicklung hat sich letztenendes Microsoft Windows 
+beziehungsweise Visual Studio und dessen C++-Compiler herausgestellt.
+
+Leider sind dem Microsoft-C++-Compiler auch teils grundlegende Sprachkonstrukte aus 
+C99-Zeiten noch nicht bekannt (z.B. Array-Initialisierung über nichtkonstante 
+Ausdrücke). Dies erforderte im letzten Moment noch einmal (geringfügige) Umbauten.
+
+Ebenso setzt Microsoft vor Einbindung der Open-GL-Headerfile noch die Einbindung der
+Windows.h voraus, ohne dass dafür eine technische Notwendigkeit besteht.
+Dieses äußerst fragwürdige Verhalten ist stellvertretend für die Überreste der 
+Microsoft'schen Firmenpolitik der späten 90er Jahre, die ihre Auswirkungen auch immer 
+wieder in den technischen Bereich hatte.
+Mittels der Einbindung des ohnehin benötigten GLEW ließen sich problemlos die wenigen 
+fehlenden Definitionen aus der Windows.h ergänzen, ohne dass zwangsweise die Windows.h 
+eingebunden werden musste, was wiederum die Kompatiblität zu sämtlichen Unix-Systemen 
+deutlich umständlicher gemacht hätte.
+
+Auch die Einbindung der notwendigen Drittbibliothekten gestaltet sich unter Windows 
+deutlich schwieriger als beispielsweise unter Linux. Dies beginnt damit, dass unter 
+Windows Bibliotheken nicht systemweit verwaltet und eingebunden werden, wie dies 
+unter Linux seit Jahr und Tag üblich ist. Somit muss jede Abhängigkeit selbst 
+im Internet beim jeweiligen Hersteller zusammengetragen werden.
+Zwar existiert mit NuGet mittlerweile ein Paketmanager im VisualStudio, für die
+verwendeten Abhängigkeiten waren die dort erhältlichen Pakete jedoch fehlerhaft und 
+somit nicht funktionstüchtig.
+
+Auf Rückwärtskompatiblität wurde seitens Microsoft nicht geachtet, somit ist es also 
+nicht möglich eine Bibliotheksdatei aus Visual Studio 2013 unter Visual Studio 2015 
+einzubinden. Das hat die Notwendigkeit des erneuten Kompilieren sämtlicher 
+Abhängigkeiten zur Folge, selbst wenn durch die Entwickler eigentlich Binärdateien 
+bereit stehen. In einem Fall (FreeImage) standen sogar weder Binär- noch 
+funktionsfähige Projektdateien für Visual Studio 2015 bereit, sodass zunächst noch 
+aufwändig die Abhängigkeit repariert werden musste.
+
+Die Build-Konfiguration ist durch den Zwang zur Benutzung einer GUI unter Verzicht auf 
+die ansonsten weit verbreiteten Makefiles äußert umständlich 
+und wenig wiederholgenau, zudem auch höchst bürokratisch, gerade was die manuelle 
+Eingabe der Pfade aller Abhängigkeiten angeht.
+
+Zudem unterscheidet Visual C++ noch explizit zwischen Debug- und Release-Versionen 
+sämtlicher Bibliotheken und ausführbarer Dateien. Während unter Linux eine 
+Release-Version mittels Compiler-Flag und ansonsten unveränderter Eingabe erfolgen 
+kann, müssen unter Windows die Pfade für sämtliche Bibliotheken noch einmal 
+zeitaufwändig manuell angepasst werden.
+
+Es fällt außerdem auf, dass mit Visual C++ angefertigte Debug-Executables deutlich 
+langsamer 
+bezüglich ihrer Ausführungsgeschwindigkeit sind, also solche, die mit dem GCC 
+angefertigt wurden. Dies hatte massive Auswirkungen auf die von mir zuerst kompilierte 
+Debug-Fassung des Beleges, welche aufgrund der Vielzahl an Punktlichtern dadurch nur 
+noch sehr stockend lauffähig war. Die Kompilierung als Release-Fassung zog die 
+zeitaufwändige manuelle Neukompilierung sämtlicher Abhängigkeiten nach sich.
+
+Alles in Allem benötigte ich für die Kompilierung meines Beleges unter Windows ca. drei 
+Stunden, das meiste davon für Verwaltungstätigkeiten, die mir unter Unix i.d.R. das 
+System abnimmt. Große Änderungen am Code waren nicht erforderlich.
+Während unter dem kostenlosen ''Hobbyprodukt'' Linux die Kompilierung 
+also selbst bei einem frischen System ohne installierten Compiler und ohne jegliche
+Abhängigkeiten vielleicht eine Viertelstunde in Anspruch nimmt, verlangt das
+''Qualitätsprodukt'' Visual Studio dem Nutzer hier ein Vielfaches an Zeit und Mühe ab. 
+Das spricht meines Erachtens nach für sich selbst.
+
+Für zukünftige Jahrgänge empfehle ich die Zulassung der Arbeit unter Linux in Erwägung
+zu ziehen.

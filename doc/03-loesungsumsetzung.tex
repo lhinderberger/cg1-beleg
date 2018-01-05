@@ -6,12 +6,63 @@ objektorientiert zu programmieren.
 Als Build-System wird CMake gewählt, welches die Entwicklung unter Linux ermöglicht und 
 gleichzeitig die Erzeugung von Visual Studio-Projektdateien erlaubt.
 
+Die Entwicklung erfolgte von Grund auf neu, ohne Einbezug des Rahmenprogramms aus der 
+Vorlesung. Entwickelt wurde unter Linux.
+
 \subsection{Entwicklung}
-Zunächst wurde experimentell die Machbarkeit verschiedener Teilaspekte des 
-Lösungsansatzes durch Prototypen erprobt. Danach wurde basierend auf diesen Prototypen 
-der Beleg objektorientiert entworfen.
+Das Programm wurde inkrementell, ausgehend von einem leeren Bildschirm aus 
+objektorientiert entwickelt.
 
-TODO: Klassendiagramm
+Zunächst wurde eine Klasse entworfen, welche die drei Raumachsen darstellt. Diese wurde 
+aus der finalen Version der Anwendung wieder entfernt, war aber gerade am Anfang, vor 
+der Fertigstellung der Kameraklassen essentiell, um nicht die Orientierung zu 
+verlieren.
 
-\subsection{Abgabe}
+Als nächstes wurde mit der Entwicklung einer interaktiven First-Person-Kamera 
+fortgefahren. Die Kamera sollte das Bewegen in der Ebene sowie die vollständige Drehung 
+um die Y-Achse (Yaw, ''Sich-Umdrehen'') und die eingeschränkte Drehung um die Z-Achse 
+(Pitch, ''Hoch- und Runtersehen'') ermöglichen. (Vier Freiheitsgrade)
 
+Dann wurden die geometrischen Grundkörper Quader und Zylinder, zunächst noch ohne 
+Normalen und Texturkoordinaten, implementiert und ohne Beleuchtung frei im Raum 
+dargestellt. Zudem wurde eine Model-Klasse entworfen, welche unter einem gemeinsamen 
+Dach die Modellmatrix und Aufrufe für das Rendering sammelt.
+
+Damit konnte als nächstes die ''Leuchtreklame'' aus diesen Grundkörpern und diversen 
+Transformationen zusammengesetzt werden, welche ihrerseits wieder ein Modell darstellt.
+
+Fortgefahren wurde mit der Entwicklung der Beleuchtungsberechnung. Hierbei wurde das 
+Phong-Beleuchtungsmodell gewählt und schrittweise zunächst Ambient-, dann Diffuse- und 
+schließlich Specular-Lighting zunächst noch global mit einer Lichtquelle implementiert.
+Dazu mussten für die geometrischen Grundkörper die Normalen berechnet definiert werden.
+Im Zuge dessen wurde noch einmal die Erzeugung des geometrischen Grundkörpers des 
+Quaders verändert, welcher jetzt nur noch Dreiecke (GL\_TRIANGLE) und keine 
+Dreiecksstreifen mehr enthält. Zudem werden Ober- und Unterseite des Quaders jetzt nur 
+noch aus einem VAO heraus gerendet, welcher verschoben und gedreht wird.
+
+Im Folgenden Schritt wurden Materialeigenschaften für alle Modelle definiert und das 
+Rendern mit mehreren definier- und veränderbaren Punktlichtquellen ermöglicht. Damit 
+ließ sich die Leuchtreklame in ihrer (im Wesentlichen) abschließenden Form 
+verwirklichen. Um die Leuchteffekte deutlicher sichtbar zu machen, wurde noch ein Boden 
+hinzugefügt (für welchen noch ein Quadrat als geometrische Grundform geschaffen werden 
+musste) sowie aus Quadern Würfel in der Szene verteilt.
+
+Würfel sowie Boden wurden im nächsten Schritt texturiert, was das Einfügen von 
+Texturkoordinaten in allen Grundkörpern sowie die Einbindung von FreeImage nach sich 
+zog.
+
+Danach wurde ein Würfel sowie die Leuchtreklame animiert, wozu noch einmal die Logik
+des Renderns geändert werden musste, welches jetzt korrekterweise über
+glutPostRedisplay() und die glutIdle()-Funktion erfolgt.
+
+Schlussendlich wurde im Feinschliff noch eine zweite Kamera hinzugefügt, die finalen 
+Kamerapositionen und -Blickwinkel bestimmt, das Overlay über den Bildschirm gelegt und 
+die Darstellung in mehreren gleichzeitigen Viewports mit unterschiedlichen 
+Kameras und Projektionen aktiviert, wozu die Render-Funktion noch einmal in mehrere 
+Unterfunktionen aufgeteilt werden musste.
+
+\subsection{Test und Portierung}
+Nach erfolgreichem Test unter Linux musste laut Aufgabenstellung noch die Portierung 
+nach Windows erfolgen. Nach einem erfolgreichem Test an meinem heimischen Rechner unter 
+Visual Studio 2017 erfolgte zuletzt vor Ort in der HTW das Erstellen einer Visual 
+Studio 2013-Projektmappe und der erforderlichen Windows-Binaries.
